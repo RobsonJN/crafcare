@@ -348,6 +348,16 @@ function createPerfumeCard(perfume, genero, index) {
     const tem30ml = perfume.preco30ml !== undefined;
     const tem50ml = perfume.preco50ml !== undefined;
     
+    // Determinar a fragrância original inspirada (removendo marca específica se presente)
+    let originalName = perfume.nome;
+    const brandMarkers = ['VS Body Splash', 'LATTAFA', 'NISHANE', 'ROCHAS', 'PARFUMS', 'XJ 1861', 'BY KIL', 'J MALONE'];
+    
+    brandMarkers.forEach(marker => {
+        if (originalName.includes(marker)) {
+            originalName = originalName.split(marker)[0].trim();
+        }
+    });
+    
     let sizeOptionsHTML = '<div class="size-options">';
     
     if (tem100ml) {
@@ -355,7 +365,7 @@ function createPerfumeCard(perfume, genero, index) {
             <div class="size-option" data-size="100ml" data-price="${perfume.preco100ml}">
                 <label>
                     <input type="radio" name="${genero}-${index}" value="100ml">
-                    100ml
+                    100ml <span class="concentration-badge">33% Extract Parfum</span>
                 </label>
                 <span class="price">R$ ${perfume.preco100ml},00</span>
             </div>
@@ -367,7 +377,7 @@ function createPerfumeCard(perfume, genero, index) {
             <div class="size-option" data-size="30ml" data-price="${perfume.preco30ml}">
                 <label>
                     <input type="radio" name="${genero}-${index}" value="30ml">
-                    30ml
+                    30ml <span class="concentration-badge">33% Extract Parfum</span>
                 </label>
                 <span class="price">R$ ${perfume.preco30ml},00</span>
             </div>
@@ -379,7 +389,7 @@ function createPerfumeCard(perfume, genero, index) {
             <div class="size-option" data-size="50ml" data-price="${perfume.preco50ml}">
                 <label>
                     <input type="radio" name="${genero}-${index}" value="50ml">
-                    50ml
+                    50ml <span class="concentration-badge">20% Colônia</span>
                 </label>
                 <span class="price">R$ ${perfume.preco50ml},00</span>
             </div>
@@ -390,6 +400,9 @@ function createPerfumeCard(perfume, genero, index) {
     
     card.innerHTML = `
         <h3>${perfume.nome}</h3>
+        <div class="inspired-info">
+            <strong>Inspirado em:</strong> ${originalName}
+        </div>
         ${sizeOptionsHTML}
         <button class="add-btn" disabled>
             <i class="fas fa-cart-plus"></i> Adicionar
@@ -397,12 +410,12 @@ function createPerfumeCard(perfume, genero, index) {
     `;
     
     // Eventos do card
-    setupCardEvents(card, perfume, genero);
+    setupCardEvents(card, perfume, genero, originalName);
     
     return card;
 }
 
-function setupCardEvents(card, perfume, genero) {
+function setupCardEvents(card, perfume, genero, originalName) {
     const sizeOptions = card.querySelectorAll('.size-option');
     const addBtn = card.querySelector('.add-btn');
     
@@ -424,7 +437,7 @@ function setupCardEvents(card, perfume, genero) {
             const size = selectedSizeOption.dataset.size;
             const price = parseInt(selectedSizeOption.dataset.price);
             
-            addToCart(perfume.nome, genero, size, price);
+            addToCart(perfume.nome, genero, size, price, originalName);
             openCartSidebar();
             
             // Feedback visual
@@ -453,6 +466,9 @@ function renderBodySplashGrid(genero, items) {
     grid.innerHTML = '';
     
     items.forEach((item, index) => {
+        // Determinar a fragrância original inspirada
+        let originalName = item.nome.replace('VS Body Splash', '').replace('Body Splash', '').trim();
+        
         const card = document.createElement('div');
         card.className = `perfume-card ${genero}`;
         card.dataset.id = `${genero}-${index}`;
@@ -461,11 +477,14 @@ function renderBodySplashGrid(genero, items) {
         
         card.innerHTML = `
             <h3>${item.nome}</h3>
+            <div class="inspired-info">
+                <strong>Inspirado em:</strong> ${originalName}
+            </div>
             <div class="size-options">
                 <div class="size-option selected" data-size="Único" data-price="${item.preco}">
                     <label>
                         <input type="radio" name="${genero}-${index}" value="único" checked>
-                        Tamanho Único
+                        Tamanho Único <span class="concentration-badge">20%</span>
                     </label>
                     <span class="price">R$ ${item.preco},00</span>
                 </div>
@@ -480,7 +499,7 @@ function renderBodySplashGrid(genero, items) {
         const addBtn = card.querySelector('.add-btn');
         
         addBtn.addEventListener('click', function() {
-            addToCart(item.nome, 'body', 'Único', item.preco);
+            addToCart(item.nome, 'body', 'Único', item.preco, originalName);
             openCartSidebar();
         });
     });
@@ -671,7 +690,7 @@ function applyFilters() {
 }
 
 // Funções do Carrinho
-function addToCart(name, genero, size, price) {
+function addToCart(name, genero, size, price, originalName) {
     const existingIndex = cart.findIndex(item => 
         item.name === name && item.size === size
     );
@@ -684,6 +703,7 @@ function addToCart(name, genero, size, price) {
             genero,
             size,
             price,
+            originalName: originalName || name,
             quantity: 1
         });
     }
@@ -737,12 +757,23 @@ function updateCartDisplay() {
         const itemTotal = item.price * item.quantity;
         total += itemTotal;
         
+        // Adicionar informação de concentração baseada no tamanho
+        let concentration = '';
+        if (item.size === '100ml' || item.size === '30ml') {
+            concentration = ' (33% Extract Parfum)';
+        } else if (item.size === '50ml') {
+            concentration = ' (20% Colônia)';
+        } else if (item.size === 'Único') {
+            concentration = ' (20% Body Splash)';
+        }
+        
         html += `
             <div class="cart-item">
                 <div class="cart-item-info">
                     <h4>${item.name}</h4>
-                    <small>${item.size} | ${getGeneroName(item.genero)}</small>
+                    <small>${item.size}${concentration} | ${getGeneroName(item.genero)}</small>
                     <div class="price">R$ ${item.price},00</div>
+                    <div class="inspired-cart">Inspirado em: ${item.originalName}</div>
                 </div>
                 <div class="cart-item-actions">
                     <div class="quantity-controls">
@@ -928,7 +959,8 @@ function sendToWhatsApp() {
         return;
     }
     
-    let message = `*PEDIDO DE PERFUMES*\n\n`;
+    let message = `*PEDIDO DE PERFUMES - CRAFTCARE STORE*\n\n`;
+    message += `*Perfumes inspirados nas melhores fragrâncias do mercado*\n\n`;
     
     // Agrupar por gênero
     const grupos = {
@@ -941,7 +973,18 @@ function sendToWhatsApp() {
         if (grupos[genero].length > 0) {
             message += `*${getGeneroName(genero).toUpperCase()}:*\n`;
             grupos[genero].forEach(item => {
-                message += `- ${item.name} (${item.size}) - ${item.quantity} un - R$ ${item.price * item.quantity},00\n`;
+                // Adicionar informação de concentração
+                let concentration = '';
+                if (item.size === '100ml' || item.size === '30ml') {
+                    concentration = ' (33% Extract Parfum)';
+                } else if (item.size === '50ml') {
+                    concentration = ' (20% Colônia)';
+                } else if (item.size === 'Único') {
+                    concentration = ' (20% Body Splash)';
+                }
+                
+                message += `- ${item.name}${concentration}\n`;
+                message += `  Tamanho: ${item.size} | Quantidade: ${item.quantity} | R$ ${item.price * item.quantity},00\n`;
             });
             message += '\n';
         }
@@ -951,9 +994,15 @@ function sendToWhatsApp() {
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     message += `*TOTAL: R$ ${total},00*\n\n`;
     
+    // Informações de concentração
+    message += `*INFORMAÇÕES TÉCNICAS:*\n`;
+    message += `• 100ml e 30ml: 33% Extract Parfum\n`;
+    message += `• 50ml: 20% Colônia\n`;
+    message += `• Body Splash: 20%\n\n`;
+    
     // Adicionar informações de entrega/retirada
     if (deliveryInfo.type === 'delivery') {
-        message += `*ENTREGA:*\n`;
+        message += `*DADOS PARA ENTREGA:*\n`;
         message += `Nome: ${deliveryInfo.name}\n`;
         message += `Telefone: ${deliveryInfo.phone}\n`;
         message += `Endereço: ${deliveryInfo.address}\n`;
@@ -967,6 +1016,8 @@ function sendToWhatsApp() {
         message += `Telefone: ${deliveryInfo.phone}\n`;
         message += `\n*Endereço para retirada será informado após confirmação.*\n`;
     }
+    
+    message += `\n*Obrigado pelo pedido!*\n`;
     
     // Número do WhatsApp
     const phoneNumber = "5519998978060"; // Formato internacional
@@ -1019,6 +1070,13 @@ style.textContent = `
     @keyframes slideOut {
         from { transform: translateX(0); opacity: 1; }
         to { transform: translateX(100%); opacity: 0; }
+    }
+    
+    .inspired-cart {
+        font-size: 0.8rem;
+        color: #666;
+        margin-top: 5px;
+        font-style: italic;
     }
 `;
 document.head.appendChild(style);
