@@ -92,10 +92,6 @@
                     <input type="text" id="client-name" placeholder="Seu nome completo">
                 </div>
                 <div class="form-group">
-                    <label for="client-phone">Telefone *</label>
-                    <input type="tel" id="client-phone" placeholder="(00) 00000-0000">
-                </div>
-                <div class="form-group">
                     <label for="client-address">Endereço Completo *</label>
                     <textarea id="client-address" rows="3" placeholder="Rua, número, bairro, cidade - Estado"></textarea>
                 </div>
@@ -115,10 +111,7 @@
                     <label for="pickup-name">Nome para Retirada *</label>
                     <input type="text" id="pickup-name" placeholder="Seu nome completo">
                 </div>
-                <div class="form-group">
-                    <label for="pickup-phone">Telefone *</label>
-                    <input type="tel" id="pickup-phone" placeholder="(00) 00000-0000">
-                </div>
+                <p class="form-note">* Campo obrigatório</p>
             </div>
         </div>
         <div class="modal-footer">
@@ -132,7 +125,11 @@
     <div class="container">
         <header>
             <h1><i class="fas fa-wine-bottle"></i> Selecione seus Perfumes</h1>
-            <p class="subtitle">Escolha os perfumes que deseja e envie o pedido diretamente para nosso WhatsApp</p>
+            <p class="subtitle">Perfumes inspirados nas melhores fragrâncias do mercado</p>
+            <div class="inspiration-notice">
+                <i class="fas fa-info-circle"></i>
+                <p>Todos os nossos perfumes são <strong>inspirações</strong> das fragrâncias originais, com alta qualidade e excelente custo-benefício.</p>
+            </div>
         </header>
 
         <!-- Resumo Rápido do Pedido -->
@@ -169,16 +166,6 @@
                     <option value="name-desc">Nome (Z-A)</option>
                     <option value="price-asc">Menor Preço</option>
                     <option value="price-desc">Maior Preço</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label for="price-filter">Faixa de Preço:</label>
-                <select id="price-filter">
-                    <option value="all">Todos os preços</option>
-                    <option value="0-100">Até R$ 100</option>
-                    <option value="100-150">R$ 100 - R$ 150</option>
-                    <option value="150-200">R$ 150 - R$ 200</option>
-                    <option value="200+">Acima de R$ 200</option>
                 </select>
             </div>
         </div>
@@ -222,6 +209,16 @@
                 <li>Clique no botão verde para enviar direto para o WhatsApp</li>
                 <li>O frete será combinado após o pedido</li>
             </ol>
+            
+            <div class="concentration-info">
+                <h4><i class="fas fa-flask"></i> Informações sobre Concentração:</h4>
+                <ul>
+                    <li><strong>100ml e 30ml:</strong> 33% Extract Parfum (Alta concentração)</li>
+                    <li><strong>50ml:</strong> 20% Colônia (Concentração média)</li>
+                    <li><strong>Body Splash:</strong> 20% (Concentração refrescante)</li>
+                </ul>
+            </div>
+            
             <div class="contact-info">
                 <p><i class="fab fa-whatsapp"></i> WhatsApp: (19) 99897-8060</p>
             </div>
@@ -229,6 +226,7 @@
 
         <footer>
             <p>Sistema de Pedidos de Perfumes &copy; 2024</p>
+            <p class="footer-notice">Perfumes inspirados nas melhores fragrâncias do mercado</p>
             <p class="footer-links">
                 <a href="#" id="delivery-info"><i class="fas fa-truck"></i> Opções de Entrega</a>
             </p>
