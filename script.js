@@ -336,17 +336,29 @@ function createPerfumeCard(perfume, genero, index) {
     card.dataset.id = `${genero}-${index}`;
     card.dataset.name = perfume.nome.toLowerCase();
     
-    // Calcular preço mínimo para filtros
+    // Calcular preço mínimo e máximo para ordenação
     const prices = [];
     if (perfume.preco100ml) prices.push(perfume.preco100ml);
     if (perfume.preco30ml) prices.push(perfume.preco30ml);
     if (perfume.preco50ml) prices.push(perfume.preco50ml);
     const minPrice = Math.min(...prices);
+    const maxPrice = Math.max(...prices);
     card.dataset.minPrice = minPrice;
+    card.dataset.maxPrice = maxPrice;
     
     const tem100ml = perfume.preco100ml !== undefined;
     const tem30ml = perfume.preco30ml !== undefined;
     const tem50ml = perfume.preco50ml !== undefined;
+    
+    // Determinar a fragrância original inspirada (removendo marca específica se presente)
+    let originalName = perfume.nome;
+    const brandMarkers = ['VS Body Splash', 'LATTAFA', 'NISHANE', 'ROCHAS', 'PARFUMS', 'XJ 1861', 'BY KIL', 'J MALONE'];
+    
+    brandMarkers.forEach(marker => {
+        if (originalName.includes(marker)) {
+            originalName = originalName.split(marker)[0].trim();
+        }
+    });
     
     let sizeOptionsHTML = '<div class="size-options">';
     
@@ -355,7 +367,7 @@ function createPerfumeCard(perfume, genero, index) {
             <div class="size-option" data-size="100ml" data-price="${perfume.preco100ml}">
                 <label>
                     <input type="radio" name="${genero}-${index}" value="100ml">
-                    100ml
+                    100ml <span class="concentration-badge">33% Extract Parfum</span>
                 </label>
                 <span class="price">R$ ${perfume.preco100ml},00</span>
             </div>
@@ -367,7 +379,7 @@ function createPerfumeCard(perfume, genero, index) {
             <div class="size-option" data-size="30ml" data-price="${perfume.preco30ml}">
                 <label>
                     <input type="radio" name="${genero}-${index}" value="30ml">
-                    30ml
+                    30ml <span class="concentration-badge">33% Extract Parfum</span>
                 </label>
                 <span class="price">R$ ${perfume.preco30ml},00</span>
             </div>
@@ -379,7 +391,7 @@ function createPerfumeCard(perfume, genero, index) {
             <div class="size-option" data-size="50ml" data-price="${perfume.preco50ml}">
                 <label>
                     <input type="radio" name="${genero}-${index}" value="50ml">
-                    50ml
+                    50ml <span class="concentration-badge">20% Colônia</span>
                 </label>
                 <span class="price">R$ ${perfume.preco50ml},00</span>
             </div>
@@ -390,6 +402,9 @@ function createPerfumeCard(perfume, genero, index) {
     
     card.innerHTML = `
         <h3>${perfume.nome}</h3>
+        <div class="inspired-info">
+            <strong>Inspirado em:</strong> ${originalName}
+        </div>
         ${sizeOptionsHTML}
         <button class="add-btn" disabled>
             <i class="fas fa-cart-plus"></i> Adicionar
@@ -397,12 +412,12 @@ function createPerfumeCard(perfume, genero, index) {
     `;
     
     // Eventos do card
-    setupCardEvents(card, perfume, genero);
+    setupCardEvents(card, perfume, genero, originalName);
     
     return card;
 }
 
-function setupCardEvents(card, perfume, genero) {
+function setupCardEvents(card, perfume, genero, originalName) {
     const sizeOptions = card.querySelectorAll('.size-option');
     const addBtn = card.querySelector('.add-btn');
     
@@ -424,7 +439,7 @@ function setupCardEvents(card, perfume, genero) {
             const size = selectedSizeOption.dataset.size;
             const price = parseInt(selectedSizeOption.dataset.price);
             
-            addToCart(perfume.nome, genero, size, price);
+            addToCart(perfume.nome, genero, size, price, originalName);
             openCartSidebar();
             
             // Feedback visual
@@ -453,19 +468,26 @@ function renderBodySplashGrid(genero, items) {
     grid.innerHTML = '';
     
     items.forEach((item, index) => {
+        // Determinar a fragrância original inspirada
+        let originalName = item.nome.replace('VS Body Splash', '').replace('Body Splash', '').trim();
+        
         const card = document.createElement('div');
         card.className = `perfume-card ${genero}`;
         card.dataset.id = `${genero}-${index}`;
         card.dataset.name = item.nome.toLowerCase();
         card.dataset.minPrice = item.preco;
+        card.dataset.maxPrice = item.preco;
         
         card.innerHTML = `
             <h3>${item.nome}</h3>
+            <div class="inspired-info">
+                <strong>Inspirado em:</strong> ${originalName}
+            </div>
             <div class="size-options">
                 <div class="size-option selected" data-size="Único" data-price="${item.preco}">
                     <label>
                         <input type="radio" name="${genero}-${index}" value="único" checked>
-                        Tamanho Único
+                        Tamanho Único <span class="concentration-badge">20%</span>
                     </label>
                     <span class="price">R$ ${item.preco},00</span>
                 </div>
@@ -480,7 +502,7 @@ function renderBodySplashGrid(genero, items) {
         const addBtn = card.querySelector('.add-btn');
         
         addBtn.addEventListener('click', function() {
-            addToCart(item.nome, 'body', 'Único', item.preco);
+            addToCart(item.nome, 'body', 'Único', item.preco, originalName);
             openCartSidebar();
         });
     });
@@ -513,12 +535,8 @@ function setupEventListeners() {
         applyFilters();
     });
     
-    // Filtros
+    // Filtros (apenas ordenação)
     document.getElementById('sort-by').addEventListener('change', function() {
-        applyFilters();
-    });
-    
-    document.getElementById('price-filter').addEventListener('change', function() {
         applyFilters();
     });
     
@@ -576,7 +594,6 @@ function switchTab(tab) {
 
 function applyFilters() {
     const sortBy = document.getElementById('sort-by').value;
-    const priceFilter = document.getElementById('price-filter').value;
     const globalSearch = document.getElementById('global-search').value.toLowerCase().trim();
     
     // Aplicar em cada categoria
@@ -592,7 +609,6 @@ function applyFilters() {
         // Aplicar filtros a cada card
         cards.forEach(card => {
             const perfumeName = card.querySelector('h3').textContent.toLowerCase();
-            const minPrice = parseFloat(card.dataset.minPrice);
             
             // Verificar busca global
             const matchesGlobalSearch = globalSearch === '' || perfumeName.includes(globalSearch);
@@ -600,28 +616,8 @@ function applyFilters() {
             // Verificar busca da aba
             const matchesTabSearch = tabSearch === '' || perfumeName.includes(tabSearch);
             
-            // Verificar filtro de preço
-            let matchesPriceFilter = true;
-            switch(priceFilter) {
-                case 'all':
-                    matchesPriceFilter = true;
-                    break;
-                case '0-100':
-                    matchesPriceFilter = minPrice <= 100;
-                    break;
-                case '100-150':
-                    matchesPriceFilter = minPrice > 100 && minPrice <= 150;
-                    break;
-                case '150-200':
-                    matchesPriceFilter = minPrice > 150 && minPrice <= 200;
-                    break;
-                case '200+':
-                    matchesPriceFilter = minPrice > 200;
-                    break;
-            }
-            
             // Mostrar card se passar por todos os filtros
-            const shouldShow = matchesGlobalSearch && matchesTabSearch && matchesPriceFilter;
+            const shouldShow = matchesGlobalSearch && matchesTabSearch;
             card.style.display = shouldShow ? 'block' : 'none';
             
             if (shouldShow) {
@@ -633,8 +629,21 @@ function applyFilters() {
         visibleCards.sort((a, b) => {
             const nameA = a.querySelector('h3').textContent.toLowerCase();
             const nameB = b.querySelector('h3').textContent.toLowerCase();
-            const priceA = parseFloat(a.dataset.minPrice);
-            const priceB = parseFloat(b.dataset.minPrice);
+            
+            let priceA, priceB;
+            
+            if (sortBy === 'price-desc') {
+                // Para maior preço, usar o preço máximo
+                priceA = parseFloat(a.dataset.maxPrice);
+                priceB = parseFloat(b.dataset.maxPrice);
+            } else if (sortBy === 'price-asc') {
+                // Para menor preço, usar o preço mínimo
+                priceA = parseFloat(a.dataset.minPrice);
+                priceB = parseFloat(b.dataset.minPrice);
+            } else {
+                priceA = parseFloat(a.dataset.minPrice);
+                priceB = parseFloat(b.dataset.minPrice);
+            }
             
             switch(sortBy) {
                 case 'name-asc':
@@ -650,28 +659,29 @@ function applyFilters() {
             }
         });
         
-        // Reordenar no DOM
-        // Primeiro, remover todos os cards
-        cards.forEach(card => {
-            card.remove();
-        });
+        // Reordenar no DOM de forma mais eficiente
+        const fragment = document.createDocumentFragment();
         
-        // Adicionar na ordem correta
+        // Adicionar cards visíveis na ordem correta
         visibleCards.forEach(card => {
-            grid.appendChild(card);
+            fragment.appendChild(card);
         });
         
         // Adicionar os cards ocultos no final
         cards.forEach(card => {
             if (card.style.display === 'none') {
-                grid.appendChild(card);
+                fragment.appendChild(card);
             }
         });
+        
+        // Substituir todo o conteúdo do grid
+        grid.innerHTML = '';
+        grid.appendChild(fragment);
     });
 }
 
 // Funções do Carrinho
-function addToCart(name, genero, size, price) {
+function addToCart(name, genero, size, price, originalName) {
     const existingIndex = cart.findIndex(item => 
         item.name === name && item.size === size
     );
@@ -684,6 +694,7 @@ function addToCart(name, genero, size, price) {
             genero,
             size,
             price,
+            originalName: originalName || name,
             quantity: 1
         });
     }
@@ -737,12 +748,23 @@ function updateCartDisplay() {
         const itemTotal = item.price * item.quantity;
         total += itemTotal;
         
+        // Adicionar informação de concentração baseada no tamanho
+        let concentration = '';
+        if (item.size === '100ml' || item.size === '30ml') {
+            concentration = ' (33% Extract Parfum)';
+        } else if (item.size === '50ml') {
+            concentration = ' (20% Colônia)';
+        } else if (item.size === 'Único') {
+            concentration = ' (20% Body Splash)';
+        }
+        
         html += `
             <div class="cart-item">
                 <div class="cart-item-info">
                     <h4>${item.name}</h4>
-                    <small>${item.size} | ${getGeneroName(item.genero)}</small>
+                    <small>${item.size}${concentration} | ${getGeneroName(item.genero)}</small>
                     <div class="price">R$ ${item.price},00</div>
+                    <div class="inspired-cart">Inspirado em: ${item.originalName}</div>
                 </div>
                 <div class="cart-item-actions">
                     <div class="quantity-controls">
@@ -766,16 +788,10 @@ function updateCartDisplay() {
     cartTotal.textContent = `R$ ${total},00`;
     
     // Adicionar eventos aos controles de quantidade
-    document.querySelectorAll('.quantity-btn').forEach(btn => {
+    document.querySelectorAll('.quantity-btn.plus').forEach(btn => {
         btn.addEventListener('click', function() {
             const index = parseInt(this.dataset.index);
-            if (this.classList.contains('plus')) {
-                cart[index].quantity += 1;
-            } else if (this.classList.contains('minus')) {
-                if (cart[index].quantity > 1) {
-                    cart[index].quantity -= 1;
-                }
-            }
+            cart[index].quantity += 1;
             updateCartCount();
             updateCartDisplay();
             updateQuickSummary();
@@ -783,11 +799,30 @@ function updateCartDisplay() {
         });
     });
     
+    document.querySelectorAll('.quantity-btn.minus').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const index = parseInt(this.dataset.index);
+            if (cart[index].quantity > 1) {
+                cart[index].quantity -= 1;
+                updateCartCount();
+                updateCartDisplay();
+                updateQuickSummary();
+                saveCart();
+            }
+        });
+    });
+    
     document.querySelectorAll('.quantity-input').forEach(input => {
         input.addEventListener('change', function() {
             const index = parseInt(this.dataset.index);
-            const newQuantity = parseInt(this.value) || 1;
-            cart[index].quantity = Math.max(1, newQuantity);
+            let newQuantity = parseInt(this.value);
+            
+            if (isNaN(newQuantity) || newQuantity < 1) {
+                newQuantity = 1;
+                this.value = 1;
+            }
+            
+            cart[index].quantity = newQuantity;
             updateCartCount();
             updateCartDisplay();
             updateQuickSummary();
@@ -857,9 +892,9 @@ function openDeliveryModal() {
         if (deliveryInfo.type === 'delivery') {
             document.querySelector('.delivery-option[data-type="delivery"]').click();
             document.getElementById('client-name').value = deliveryInfo.name || '';
-            document.getElementById('client-phone').value = deliveryInfo.phone || '';
             document.getElementById('client-address').value = deliveryInfo.address || '';
             document.getElementById('client-complement').value = deliveryInfo.complement || '';
+            document.getElementById('client-phone').value = deliveryInfo.phone || '';
         } else {
             document.querySelector('.delivery-option[data-type="pickup"]').click();
             document.getElementById('pickup-name').value = deliveryInfo.name || '';
@@ -880,22 +915,32 @@ function saveDeliveryInfo() {
     
     if (deliveryType === 'delivery') {
         const name = document.getElementById('client-name').value.trim();
-        const phone = document.getElementById('client-phone').value.trim();
         const address = document.getElementById('client-address').value.trim();
         const complement = document.getElementById('client-complement').value.trim();
+        const phone = document.getElementById('client-phone').value.trim();
         
-        if (!name || !phone || !address) {
-            alert('Por favor, preencha todos os campos obrigatórios para entrega.');
+        if (!name || !address) {
+            alert('Por favor, preencha seu nome e endereço para entrega.');
             return;
         }
         
-        info = { ...info, name, phone, address, complement };
+        if (!phone) {
+            alert('Por favor, preencha um telefone para contato.');
+            return;
+        }
+        
+        info = { ...info, name, address, complement, phone };
     } else {
         const name = document.getElementById('pickup-name').value.trim();
         const phone = document.getElementById('pickup-phone').value.trim();
         
-        if (!name || !phone) {
-            alert('Por favor, preencha seu nome e telefone para retirada.');
+        if (!name) {
+            alert('Por favor, preencha seu nome para retirada.');
+            return;
+        }
+        
+        if (!phone) {
+            alert('Por favor, preencha um telefone para contato.');
             return;
         }
         
@@ -922,13 +967,31 @@ function sendToWhatsApp() {
         return;
     }
     
+    // Validação reforçada do formulário de retirada
     if (!deliveryInfo) {
         openDeliveryModal();
         alert('Por favor, preencha as informações de entrega/retirada antes de enviar o pedido.');
         return;
     }
     
-    let message = `*PEDIDO DE PERFUMES*\n\n`;
+    // Validação específica para retirada no local
+    if (deliveryInfo.type === 'pickup' && (!deliveryInfo.name || !deliveryInfo.phone)) {
+        openDeliveryModal();
+        document.querySelector('.delivery-option[data-type="pickup"]').click();
+        alert('Para retirada no local, é necessário informar seu nome e telefone.');
+        return;
+    }
+    
+    // Validação específica para entrega
+    if (deliveryInfo.type === 'delivery' && (!deliveryInfo.name || !deliveryInfo.address || !deliveryInfo.phone)) {
+        openDeliveryModal();
+        document.querySelector('.delivery-option[data-type="delivery"]').click();
+        alert('Para entrega, é necessário informar seu nome, endereço e telefone.');
+        return;
+    }
+    
+    let message = `*PEDIDO DE PERFUMES - CRAFTCARE STORE*\n\n`;
+    message += `*Perfumes inspirados nas melhores fragrâncias do mercado*\n\n`;
     
     // Agrupar por gênero
     const grupos = {
@@ -941,7 +1004,18 @@ function sendToWhatsApp() {
         if (grupos[genero].length > 0) {
             message += `*${getGeneroName(genero).toUpperCase()}:*\n`;
             grupos[genero].forEach(item => {
-                message += `- ${item.name} (${item.size}) - ${item.quantity} un - R$ ${item.price * item.quantity},00\n`;
+                // Adicionar informação de concentração
+                let concentration = '';
+                if (item.size === '100ml' || item.size === '30ml') {
+                    concentration = ' (33% Extract Parfum)';
+                } else if (item.size === '50ml') {
+                    concentration = ' (20% Colônia)';
+                } else if (item.size === 'Único') {
+                    concentration = ' (20% Body Splash)';
+                }
+                
+                message += `- ${item.name}${concentration}\n`;
+                message += `  Tamanho: ${item.size} | Quantidade: ${item.quantity} | R$ ${item.price * item.quantity},00\n`;
             });
             message += '\n';
         }
@@ -951,9 +1025,15 @@ function sendToWhatsApp() {
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     message += `*TOTAL: R$ ${total},00*\n\n`;
     
+    // Informações de concentração
+    message += `*INFORMAÇÕES TÉCNICAS:*\n`;
+    message += `• 100ml e 30ml: 33% Extract Parfum\n`;
+    message += `• 50ml: 20% Colônia\n`;
+    message += `• Body Splash: 20%\n\n`;
+    
     // Adicionar informações de entrega/retirada
     if (deliveryInfo.type === 'delivery') {
-        message += `*ENTREGA:*\n`;
+        message += `*DADOS PARA ENTREGA:*\n`;
         message += `Nome: ${deliveryInfo.name}\n`;
         message += `Telefone: ${deliveryInfo.phone}\n`;
         message += `Endereço: ${deliveryInfo.address}\n`;
@@ -967,6 +1047,8 @@ function sendToWhatsApp() {
         message += `Telefone: ${deliveryInfo.phone}\n`;
         message += `\n*Endereço para retirada será informado após confirmação.*\n`;
     }
+    
+    message += `\n*Obrigado pelo pedido!*\n`;
     
     // Número do WhatsApp
     const phoneNumber = "5519998978060"; // Formato internacional
