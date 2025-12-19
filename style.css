@@ -113,6 +113,30 @@ body {
     font-weight: bold;
 }
 
+/* Aviso de inspiração no header */
+.inspiration-notice {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.inspiration-notice i {
+    color: #ffdd40;
+    font-size: 1.2rem;
+}
+
+.inspiration-notice p {
+    font-size: 0.95rem;
+    opacity: 0.95;
+}
+
 /* Resumo Rápido */
 .quick-summary {
     background-color: #f8f9ff;
@@ -248,6 +272,13 @@ body {
     margin-top: 5px;
 }
 
+.cart-item-info .inspired-cart {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 5px;
+    font-style: italic;
+}
+
 .cart-item-actions {
     display: flex;
     align-items: center;
@@ -277,11 +308,12 @@ body {
 }
 
 .quantity-input {
-    width: 40px;
+    width: 50px;
     text-align: center;
     border: 1px solid #ddd;
     border-radius: 4px;
-    padding: 2px;
+    padding: 4px;
+    min-width: 40px;
 }
 
 .remove-item-btn {
@@ -365,7 +397,7 @@ body {
 
 .modal-body {
     padding: 20px;
-    max-height: 60vh;
+    max-height: 70vh; /* Aumentado para acomodar mais campos */
     overflow-y: auto;
 }
 
@@ -389,6 +421,10 @@ body {
     text-align: center;
     cursor: pointer;
     transition: all 0.3s;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .delivery-option:hover {
@@ -437,9 +473,18 @@ body {
     font-size: 0.95rem;
 }
 
+.form-group input[type="tel"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 0.95rem;
+}
+
 .form-group input:focus,
 .form-group textarea:focus,
-.form-group select:focus {
+.form-group select:focus,
+.form-group input[type="tel"]:focus {
     outline: none;
     border-color: #2575fc;
     box-shadow: 0 0 0 2px rgba(37, 117, 252, 0.1);
@@ -472,6 +517,23 @@ body {
     font-size: 0.9rem;
 }
 
+/* Estilo para dica do telefone */
+.phone-hint {
+    display: block;
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* Estilo para campos inválidos */
+input:invalid {
+    border-color: #e74c3c;
+}
+
+input:valid {
+    border-color: #27ae60;
+}
+
 .save-btn {
     background: #2575fc;
     color: white;
@@ -500,6 +562,7 @@ body {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
+    justify-content: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
@@ -520,6 +583,7 @@ body {
     border-radius: 5px;
     background: white;
     cursor: pointer;
+    min-width: 180px;
 }
 
 /* Estilos existentes (mantidos da versão anterior) */
@@ -551,6 +615,7 @@ header h1 {
 header .subtitle {
     font-size: 1.1rem;
     opacity: 0.9;
+    margin-bottom: 10px;
 }
 
 .tabs {
@@ -641,6 +706,8 @@ header .subtitle {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     border: 1px solid #eaeaea;
     transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
 }
 
 .perfume-card:hover {
@@ -648,27 +715,55 @@ header .subtitle {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
-.perfume-card.feminino {
-    border-top: 4px solid #e84393;
+.perfume-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
 }
 
-.perfume-card.masculino {
-    border-top: 4px solid #3498db;
+.perfume-card.compartilhavel::before {
+    background: linear-gradient(90deg, #9b59b6, #8e44ad);
 }
 
-.perfume-card.body {
-    border-top: 4px solid #2ecc71;
+.perfume-card.feminino::before {
+    background: linear-gradient(90deg, #e84393, #fd79a8);
+}
+
+.perfume-card.masculino::before {
+    background: linear-gradient(90deg, #3498db, #74b9ff);
+}
+
+.perfume-card.body::before {
+    background: linear-gradient(90deg, #2ecc71, #55efc4);
 }
 
 .perfume-card h3 {
     color: #2c3e50;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     font-size: 1.3rem;
     min-height: 60px;
+    padding-right: 10px;
+}
+
+.inspired-info {
+    background: #f8f9fa;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+    color: #666;
+    border-left: 3px solid #2575fc;
+}
+
+.inspired-info strong {
+    color: #2575fc;
 }
 
 .size-options {
-    margin: 20px 0;
+    margin: 15px 0;
 }
 
 .size-option {
@@ -696,6 +791,15 @@ header .subtitle {
 
 .size-option input[type="radio"] {
     margin-right: 10px;
+}
+
+.concentration-badge {
+    font-size: 0.75rem;
+    background: #e3f2fd;
+    color: #1976d2;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 5px;
 }
 
 .price {
@@ -799,6 +903,31 @@ header .subtitle {
     margin-bottom: 10px;
 }
 
+.concentration-info {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border: 1px solid #e1e5eb;
+}
+
+.concentration-info h4 {
+    color: #2575fc;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.concentration-info ul {
+    margin-left: 20px;
+}
+
+.concentration-info li {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
 .contact-info {
     background-color: white;
     padding: 15px;
@@ -825,6 +954,13 @@ footer {
     border-top: 1px solid #ecf0f1;
 }
 
+.footer-notice {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 10px 0;
+    font-style: italic;
+}
+
 .footer-links {
     margin-top: 10px;
 }
@@ -833,6 +969,9 @@ footer {
     color: #2575fc;
     text-decoration: none;
     margin: 0 5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .footer-links a:hover {
@@ -882,6 +1021,11 @@ footer {
     .filter-group {
         flex-direction: column;
         align-items: flex-start;
+        width: 100%;
+    }
+    
+    .filter-group select {
+        width: 100%;
     }
     
     .quick-summary-content {
@@ -892,6 +1036,11 @@ footer {
     
     header h1 {
         font-size: 2rem;
+    }
+    
+    .inspiration-notice {
+        padding: 8px 12px;
+        font-size: 0.9rem;
     }
 }
 
@@ -925,5 +1074,9 @@ footer {
     .top-bar-actions {
         width: 100%;
         justify-content: center;
+    }
+    
+    .logo {
+        font-size: 1rem;
     }
 }
