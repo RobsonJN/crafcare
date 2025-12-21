@@ -10,6 +10,12 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧴</text></svg>">
 </head>
 <body>
+    <!-- Tela de Carregamento -->
+    <div id="loading" style="display: none;">
+        <div class="loading-spinner"></div>
+        <p>Carregando...</p>
+    </div>
+
     <!-- Barra Superior Fixa -->
     <div class="top-bar">
         <div class="top-bar-content">
@@ -25,6 +31,12 @@
                 <button class="cart-icon-btn" id="cart-toggle">
                     <i class="fas fa-shopping-cart"></i>
                     <span id="cart-count">0</span>
+                </button>
+                <button class="export-btn" id="export-cart" title="Exportar Carrinho">
+                    <i class="fas fa-file-export"></i>
+                </button>
+                <button class="import-btn" id="import-cart" title="Importar Carrinho">
+                    <i class="fas fa-file-import"></i>
                 </button>
                 <button class="home-btn" id="go-home">
                     <i class="fas fa-home"></i>
@@ -56,9 +68,14 @@
             <button id="cart-send-whatsapp" class="whatsapp-btn">
                 <i class="fab fa-whatsapp"></i> Enviar Pedido
             </button>
-            <button id="clear-cart" class="clear-btn">
-                <i class="fas fa-trash"></i> Limpar Carrinho
-            </button>
+            <div class="cart-secondary-actions">
+                <button id="export-cart-sidebar" class="export-small-btn">
+                    <i class="fas fa-file-export"></i> Exportar
+                </button>
+                <button id="clear-cart" class="clear-btn">
+                    <i class="fas fa-trash"></i> Limpar
+                </button>
+            </div>
         </div>
     </div>
 
@@ -89,21 +106,27 @@
                 <h4><i class="fas fa-map-marker-alt"></i> Endereço de Entrega</h4>
                 <div class="form-group">
                     <label for="client-name">Nome Completo *</label>
-                    <input type="text" id="client-name" placeholder="Seu nome completo">
+                    <input type="text" id="client-name" placeholder="Seu nome completo" required>
+                    <span class="error-message" id="name-error"></span>
                 </div>
                 <div class="form-group">
-                    <label for="client-phone">Telefone *</label>
-                    <input type="tel" id="client-phone" placeholder="(00) 00000-0000">
+                    <label for="client-phone">Telefone para Contato *</label>
+                    <input type="tel" id="client-phone" placeholder="(19) 99897-8060" 
+                           pattern="[0-9]{11}" 
+                           title="Digite o telefone com DDD (11 dígitos)" required>
+                    <small class="phone-hint">Exemplo: 19998978060 (11 dígitos com DDD, iniciando com 55)</small>
+                    <span class="error-message" id="phone-error"></span>
                 </div>
                 <div class="form-group">
                     <label for="client-address">Endereço Completo *</label>
-                    <textarea id="client-address" rows="3" placeholder="Rua, número, bairro, cidade - Estado"></textarea>
+                    <textarea id="client-address" rows="3" placeholder="Rua, número, bairro, cidade - Estado" required></textarea>
+                    <span class="error-message" id="address-error"></span>
                 </div>
                 <div class="form-group">
                     <label for="client-complement">Complemento</label>
                     <input type="text" id="client-complement" placeholder="Apartamento, bloco, referência...">
                 </div>
-                <p class="form-note">* Campos obrigatórios</p>
+                <p class="form-note">* Campos obrigatórios. Telefone deve ter exatamente 11 dígitos (com DDD, ex: 5511999999999).</p>
             </div>
             
             <div class="pickup-info" id="pickup-info" style="display: none;">
@@ -113,12 +136,18 @@
                 </div>
                 <div class="form-group">
                     <label for="pickup-name">Nome para Retirada *</label>
-                    <input type="text" id="pickup-name" placeholder="Seu nome completo">
+                    <input type="text" id="pickup-name" placeholder="Seu nome completo" required>
+                    <span class="error-message" id="pickup-name-error"></span>
                 </div>
                 <div class="form-group">
-                    <label for="pickup-phone">Telefone *</label>
-                    <input type="tel" id="pickup-phone" placeholder="(00) 00000-0000">
+                    <label for="pickup-phone">Telefone para Contato *</label>
+                    <input type="tel" id="pickup-phone" placeholder="(19) 99897-8060"
+                           pattern="[0-9]{11}" 
+                           title="Digite o telefone com DDD (11 dígitos)" required>
+                    <small class="phone-hint">Exemplo: 19998978060 (11 dígitos com DDD, iniciando com 55)</small>
+                    <span class="error-message" id="pickup-phone-error"></span>
                 </div>
+                <p class="form-note">* Campos obrigatórios. Telefone deve ter exatamente 11 dígitos (com DDD, ex: 5511999999999).</p>
             </div>
         </div>
         <div class="modal-footer">
@@ -132,7 +161,11 @@
     <div class="container">
         <header>
             <h1><i class="fas fa-wine-bottle"></i> Selecione seus Perfumes</h1>
-            <p class="subtitle">Escolha os perfumes que deseja e envie o pedido diretamente para nosso WhatsApp</p>
+            <p class="subtitle">Perfumes inspirados nas melhores fragrâncias do mercado</p>
+            <div class="inspiration-notice">
+                <i class="fas fa-info-circle"></i>
+                <p>Todos os nossos perfumes são <strong>inspirações</strong> das fragrâncias originais, com alta qualidade e excelente custo-benefício.</p>
+            </div>
         </header>
 
         <!-- Resumo Rápido do Pedido -->
@@ -144,17 +177,25 @@
                 </div>
                 <div>
                     <p id="quick-total-price">Total: R$ 0,00</p>
-                    <button class="view-cart-btn" id="quick-view-cart">Ver Carrinho</button>
+                    <div class="quick-actions">
+                        <button class="view-cart-btn" id="quick-view-cart">Ver Carrinho</button>
+                        <button class="export-small-btn" id="quick-export-cart">
+                            <i class="fas fa-file-export"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="tabs">
-            <button class="tab-btn active" data-tab="feminino">
-                <i class="fas fa-venus"></i> Femininos (97)
+            <button class="tab-btn active" data-tab="compartilhavel">
+                <i class="fas fa-users"></i> Compartilháveis (43)
+            </button>
+            <button class="tab-btn" data-tab="feminino">
+                <i class="fas fa-venus"></i> Femininos (115)
             </button>
             <button class="tab-btn" data-tab="masculino">
-                <i class="fas fa-mars"></i> Masculinos (131)
+                <i class="fas fa-mars"></i> Masculinos (170)
             </button>
             <button class="tab-btn" data-tab="body">
                 <i class="fas fa-spray-can"></i> Body Splash (6)
@@ -171,19 +212,19 @@
                     <option value="price-desc">Maior Preço</option>
                 </select>
             </div>
-            <div class="filter-group">
-                <label for="price-filter">Faixa de Preço:</label>
-                <select id="price-filter">
-                    <option value="all">Todos os preços</option>
-                    <option value="0-100">Até R$ 100</option>
-                    <option value="100-150">R$ 100 - R$ 150</option>
-                    <option value="150-200">R$ 150 - R$ 200</option>
-                    <option value="200+">Acima de R$ 200</option>
-                </select>
+        </div>
+
+        <div class="tab-content active" id="compartilhavel-tab">
+            <div class="filter">
+                <input type="text" id="search-compartilhavel" placeholder="Buscar perfume compartilhável...">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="perfume-grid" id="compartilhavel-grid">
+                <!-- Perfumes compartilháveis serão carregados aqui -->
             </div>
         </div>
 
-        <div class="tab-content active" id="feminino-tab">
+        <div class="tab-content" id="feminino-tab">
             <div class="filter">
                 <input type="text" id="search-feminino" placeholder="Buscar perfume feminino...">
                 <i class="fas fa-search"></i>
@@ -222,18 +263,36 @@
                 <li>Clique no botão verde para enviar direto para o WhatsApp</li>
                 <li>O frete será combinado após o pedido</li>
             </ol>
+            
+            <div class="concentration-info">
+                <h4><i class="fas fa-flask"></i> Informações sobre Concentração:</h4>
+                <ul>
+                    <li><strong>200ml:</strong> 30% Extract Parfum</li>
+                    <li><strong>100ml e 30ml:</strong> 33% Extract Parfum (Alta concentração)</li>
+                    <li><strong>50ml:</strong> 20% Colônia (Concentração média)</li>
+                    <li><strong>Body Splash:</strong> 20% (Concentração refrescante)</li>
+                </ul>
+            </div>
+            
             <div class="contact-info">
                 <p><i class="fab fa-whatsapp"></i> WhatsApp: (19) 99897-8060</p>
+                <p><small><i class="fas fa-sync-alt"></i> Os pedidos são salvos automaticamente no seu navegador</small></p>
             </div>
         </div>
 
         <footer>
             <p>Sistema de Pedidos de Perfumes &copy; 2024</p>
+            <p class="footer-notice">Perfumes inspirados nas melhores fragrâncias do mercado</p>
             <p class="footer-links">
                 <a href="#" id="delivery-info"><i class="fas fa-truck"></i> Opções de Entrega</a>
+                <a href="#" id="export-bottom"><i class="fas fa-file-export"></i> Exportar Pedido</a>
+                <a href="#" id="import-bottom"><i class="fas fa-file-import"></i> Importar Pedido</a>
             </p>
         </footer>
     </div>
+
+    <!-- Input oculto para importação -->
+    <input type="file" id="import-file" accept=".json" style="display: none;">
 
     <script src="script.js"></script>
 </body>

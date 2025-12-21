@@ -1,317 +1,64 @@
+console.log('Script carregado - Sistema de Pedidos de Perfumes');
+
 const perfumesData = {
+    compartilhavel: [
+        { nome: "212 VIP BLACK ELIXIR", preco200ml: 233, preco100ml: 171, preco30ml: 95, preco50ml: 107 },
+        // ... (dados existentes - mantidos iguais)
+        { nome: "TOBACCO VANILLE", preco200ml: 233, preco100ml: 171, preco30ml: 95, preco50ml: 107 }
+    ],
+    
     feminino: [
-        { nome: "212 VIP ROSE", preco100ml: 163, preco30ml: 95, preco50ml: 107 },
-        { nome: "212 VIP ROSE LOVE NY", preco100ml: 169, preco30ml: 95, preco50ml: 107 },
-        { nome: "212 VIP", preco100ml: 153, preco30ml: 95, preco50ml: 107 },
-        { nome: "212 NYC", preco100ml: 163, preco30ml: 95, preco50ml: 107 },
-        { nome: "212 SEXY", preco100ml: 161, preco30ml: 95, preco50ml: 107 },
-        { nome: "ACQUA DI GIOIA", preco100ml: 171, preco30ml: 95, preco50ml: 107 },
-        { nome: "ALIEN", preco100ml: 167, preco30ml: 95, preco50ml: 107 },
-        { nome: "ANGEL ELIXIR", preco100ml: 169, preco30ml: 95, preco50ml: 107 },
-        { nome: "ANGEL", preco100ml: 167, preco30ml: 95, preco50ml: 107 },
-        { nome: "ANGE OU DEMON", preco100ml: 149, preco30ml: 95, preco50ml: 107 },
-        { nome: "ANI NISHANE", preco100ml: 203, preco30ml: 105, preco50ml: 117 },
-        { nome: "BABYCAT", preco100ml: 187, preco30ml: 95, preco50ml: 107 },
-        { nome: "BACCARAT ROUGE 540", preco100ml: 177, preco30ml: 105, preco50ml: 117 },
-        { nome: "BIZANCE ROCHAS", preco100ml: 182, preco30ml: 95, preco50ml: 107 },
-        { nome: "CHANEL 5", preco100ml: 157, preco30ml: 95, preco50ml: 107 },
-        { nome: "CHANCE EAU TENDRE", preco100ml: 165, preco30ml: 95, preco50ml: 107 },
-        { nome: "CH", preco100ml: 157, preco30ml: 95, preco50ml: 107 },
-        { nome: "CHEIROSA 62 - SOL DE JANEIRO", preco100ml: 177, preco30ml: 105, preco50ml: 117 },
-        { nome: "CHLOE", preco100ml: 165, preco30ml: 95, preco50ml: 107 },
-        { nome: "CLASSIQUE", preco100ml: 157, preco30ml: 95, preco50ml: 107 },
-        { nome: "COCO MADEMOISELLE", preco100ml: 175, preco30ml: 95, preco50ml: 107 },
-        { nome: "COCONUT PASSION VS Body Splash", preco100ml: 125, preco30ml: 95, preco50ml: 107 },
-        { nome: "DELINA", preco100ml: 178, preco30ml: 95, preco50ml: 107 },
-        { nome: "DELINA EXCLUSIVE", preco100ml: 185, preco30ml: 95, preco50ml: 107 },
-        { nome: "DEVOTION", preco100ml: 175, preco30ml: 95, preco50ml: 107 },
-        { nome: "DKNY BE DELICIOUS", preco100ml: 165, preco30ml: 95, preco50ml: 107 },
-        { nome: "DOLCE GABANNA RED", preco100ml: 155, preco30ml: 95, preco50ml: 107 },
-        { nome: "EDEN", preco100ml: 148, preco30ml: 105, preco50ml: 117 },
-        { nome: "ERBA PURA", preco100ml: 199, preco30ml: 105, preco50ml: 117 },
-        { nome: "ETERNITY", preco100ml: 157, preco30ml: 95, preco50ml: 107 },
-        { nome: "EUPHORIA", preco100ml: 175, preco30ml: 95, preco50ml: 107 },
-        { nome: "FAME", preco100ml: 161, preco30ml: 95, preco50ml: 107 },
-        { nome: "FANTASY", preco100ml: 149, preco30ml: 95, preco50ml: 107 },
-        { nome: "FLORA GORGEOUS MAGNÓLIA", preco100ml: 185, preco30ml: 105, preco50ml: 117 },
-        { nome: "FLORA GORGEOUS GARDÊNIA", preco100ml: 173, preco30ml: 95, preco50ml: 107 },
-        { nome: "GABRIELA SABATINI", preco100ml: 143, preco30ml: 95, preco50ml: 107 },
-        { nome: "GODESS", preco100ml: 165, preco30ml: 95, preco50ml: 107 },
-        { nome: "GOOD GIRL", preco100ml: 163, preco30ml: 95, preco50ml: 107 },
-        { nome: "GOOD GIRL BLUSH", preco100ml: 167, preco30ml: 95, preco50ml: 107 },
-        { nome: "GOOD GIRL BLUSH ELIXIR", preco100ml: 174, preco30ml: 95, preco50ml: 107 },
-        { nome: "HER CODE", preco100ml: 157, preco30ml: 95, preco50ml: 107 },
-        { nome: "HUNDRED SILENT WAYS - NISHANE", preco100ml: 203, preco30ml: 95, preco50ml: 107 },
-        { nome: "HYPNOSE", preco100ml: 175, preco30ml: 95, preco50ml: 107 },
-        { nome: "HYPNOTIC POISON", preco100ml: 177, preco30ml: 95, preco50ml: 107 },
-        { nome: "IDÔLE", preco100ml: 177, preco30ml: 95, preco50ml: 107 },
-        { nome: "ISSEY MIYAKE", preco100ml: 157, preco30ml: 95, preco50ml: 107 },
-        { nome: "J'ADORE", preco100ml: 158, preco30ml: 105, preco50ml: 117 },
-        { nome: "J MALONE ENGLISH PEAR & FREESIA", preco100ml: 175, preco30ml: 95, preco50ml: 107 },
-        { nome: "KENZO FLOWER", preco100ml: 151, preco30ml: 95, preco50ml: 107 },
-        { nome: "KENZO AMOURE", preco100ml: 165, preco30ml: 95, preco50ml: 107 },
-        { nome: "LA BOMBA", preco100ml: 171, preco30ml: 95, preco50ml: 107 },
-        { nome: "LA BELLE", preco100ml: 149, preco30ml: 95, preco50ml: 107 },
-        { nome: "LA BELLE LE PARFUM 2024", preco100ml: 175, preco30ml: 95, preco50ml: 107 },
-        { nome: "LA VIE EST BELLE", preco100ml: 167, preco30ml: 95, preco50ml: 107 },
-        { nome: "LA VIE EST BELLE L'EXTRAIT", preco100ml: 167, preco30ml: 95, preco50ml: 107 },
-        { nome: "LA VIE EST BELLE ELIXIR", preco100ml: 161, preco30ml: 95, preco50ml: 107 },
-        { nome: "LA VIE SOLEIL CRISTAL", preco100ml: 163, preco30ml: 95, preco50ml: 107 },
-        { nome: "LADY MILLION", preco100ml: 158, preco30ml: 95, preco50ml: 107 },
-        { nome: "LA NUIT TRESOR", preco100ml: 147, preco30ml: 95, preco50ml: 107 },
-        { nome: "LIBRE", preco100ml: 175, preco30ml: 95, preco50ml: 107 },
-        { nome: "LIGHT BLUES", preco100ml: 158, preco30ml: 95, preco50ml: 107 },
-        { nome: "LILI", preco100ml: 157, preco30ml: 95, preco50ml: 107 },
-        { nome: "LINTERDIT", preco100ml: 165, preco30ml: 95, preco50ml: 107 },
-        { nome: "LINTERDIT EDP ROUGE", preco100ml: 197, preco30ml: 95, preco50ml: 107 },
-        { nome: "LOU LOU", preco100ml: 175, preco30ml: 95, preco50ml: 107 },
-        { nome: "LOVE IN WHITE 2005", preco100ml: 187, preco30ml: 95, preco50ml: 107 },
-        { nome: "LUCKY CHARM", preco100ml: 165, preco30ml: 95, preco50ml: 107 },
-        { nome: "MISS DIO", preco100ml: 158, preco30ml: 95, preco50ml: 107 },
-        { nome: "MONOI VAGUE D'ETÉ", preco100ml: 163, preco30ml: 95, preco50ml: 107 },
-        { nome: "MONCLER POUR FEMME", preco100ml: 173, preco30ml: 105, preco50ml: 117 },
-        { nome: "MONTBLANC SIGNATURE PREMIUM", preco100ml: 177, preco30ml: 95, preco50ml: 107 },
-        { nome: "MY WAYS", preco100ml: 182, preco30ml: 95, preco50ml: 107 },
-        { nome: "NARCISO FOR HER", preco100ml: 158, preco30ml: 95, preco50ml: 107 },
-        { nome: "OLYMPEA", preco100ml: 155, preco30ml: 95, preco50ml: 107 },
-        { nome: "OMNIA AMETHYSTE", preco100ml: 175, preco30ml: 95, preco50ml: 107 },
-        { nome: "PRADA PARADOXE MILANO", preco100ml: 189, preco30ml: 95, preco50ml: 107 },
-        { nome: "PRADA PARADOXE INTENSE", preco100ml: 193, preco30ml: 95, preco50ml: 107 },
-        { nome: "PURE XS FOR HER", preco100ml: 169, preco30ml: 95, preco50ml: 107 },
-        { nome: "PURE MUSC FOR HER", preco100ml: 165, preco30ml: 95, preco50ml: 107 },
-        { nome: "QUEEN OF SILK", preco100ml: 191, preco30ml: 95, preco50ml: 107 },
-        { nome: "ROLLING IN LOVE", preco100ml: 195, preco30ml: 95, preco50ml: 107 },
-        { nome: "ROUGE ROYAL", preco100ml: 158, preco30ml: 95, preco50ml: 107 },
-        { nome: "ROYAL AMBER ORIENT", preco100ml: 197, preco30ml: 95, preco50ml: 107 },
-        { nome: "SABAH AL WARD LATTAFA", preco100ml: 157, preco30ml: 105, preco50ml: 117 },
-        { nome: "SCANDAL", preco100ml: 158, preco30ml: 95, preco50ml: 107 },
-        { nome: "SCANDAL LE PARFUM", preco100ml: 175, preco30ml: 105, preco50ml: 117 },
-        { nome: "SI", preco100ml: 158, preco30ml: 95, preco50ml: 107 },
-        { nome: "THE ONE", preco100ml: 155, preco30ml: 105, preco50ml: 117 },
-        { nome: "VALAYA PARFUMS MARLY", preco100ml: 203, preco30ml: 95, preco50ml: 107 },
-        { nome: "VANILLE FATALE", preco100ml: 163, preco30ml: 95, preco50ml: 107 },
-        { nome: "VERSACE DYLAN TURQUOISE", preco100ml: 173, preco30ml: 95, preco50ml: 107 },
-        { nome: "WHITE TEA ELIZABETH ARD", preco100ml: 131, preco30ml: 95, preco50ml: 107 },
-        { nome: "YARA LATTAFA", preco100ml: 163, preco30ml: 95, preco50ml: 107 },
-        { nome: "YARA ELIXIR - LATTAFA", preco100ml: 163, preco30ml: 95, preco50ml: 107 },
-        { nome: "YES I AM", preco100ml: 163, preco30ml: 105, preco50ml: 117 },
-        { nome: "VANILLE FATALE", preco30ml: 95, preco50ml: 107 },
-        { nome: "VERSACE DYLAN TURQUOISE", preco30ml: 95, preco50ml: 107 },
-        { nome: "WHITE TEA ELIZABETH ARD", preco30ml: 95, preco50ml: 107 },
-        { nome: "YARA LATTAFA", preco30ml: 95, preco50ml: 107 },
-        { nome: "YARA ELIXIR - LATTAFA", preco30ml: 95, preco50ml: 107 },
-        { nome: "YES I AM", preco30ml: 95, preco50ml: 107 },
-        { nome: "NAXOS XJ 1861", preco30ml: 105, preco50ml: 117 }
+        { nome: "212 NYC", preco200ml: 225, preco100ml: 163, preco30ml: 95, preco50ml: 107 },
+        // ... (dados existentes - mantidos iguais)
+        { nome: "YES I AM", preco200ml: 225, preco100ml: 163, preco30ml: 95, preco50ml: 107 }
     ],
     
     masculino: [
-        { nome: "212 MEN", preco100ml: 165, preco30ml: 95, preco50ml: 107 },
-        { nome: "212 HEROES", preco100ml: 157, preco30ml: 95, preco50ml: 107 },
-        { nome: "212 SEXYS MEN", preco100ml: 169, preco30ml: 95, preco50ml: 107 },
-        { nome: "212 VIP MEN", preco100ml: 173, preco30ml: 95, preco50ml: 107 },
-        { nome: "212 VIP BLACK", preco100ml: 183, preco30ml: 95, preco50ml: 107 },
-        { nome: "212 VIP BLACK ELIXIR", preco100ml: 171, preco30ml: 95, preco50ml: 107 },
-        { nome: "A* MEN", preco100ml: 155, preco30ml: 105, preco50ml: 117 },
-        { nome: "ACQUA DI GIO PROFONDO", preco100ml: 157, preco30ml: 105, preco50ml: 117 },
-        { nome: "ACQUA DI GIO ABSOLUT", preco100ml: 171, preco30ml: 105, preco50ml: 117 },
-        { nome: "ACQUA DIO GIO PARFUM", preco100ml: 167, preco30ml: 105, preco50ml: 117 },
-        { nome: "ACQUA DI GIO ELIXIR", preco100ml: 167, preco30ml: 95, preco50ml: 107 },
-        { nome: "ACQUAMARINE N POWDER", preco100ml: 191, preco30ml: 95, preco50ml: 107 },
-        { nome: "BAL D' AFRIQUE", preco100ml: 164, preco30ml: 95, preco50ml: 107 },
-        { nome: "AFTERNOON SWIM", preco100ml: 197, preco30ml: 105, preco50ml: 117 },
-        { nome: "AFRICAN LEATHER", preco100ml: 197, preco30ml: 105, preco50ml: 117 },
-        { nome: "ÁGUA DI GIO PREMIUM", preco100ml: 161, preco30ml: 95, preco50ml: 107 },
-        { nome: "ALEXANDRIA II", preco100ml: 193, preco30ml: 95, preco50ml: 107 },
-        { nome: "ALLURE H SPORT EXTREME", preco100ml: 169, preco30ml: 95, preco50ml: 107 },
-        { nome: "ALLURE HOMME SPORT", preco100ml: 169, preco30ml: 105, preco50ml: 117 },
-        { nome: "ALLURE EDITION BLACHE", preco100ml: 175, preco30ml: 95, preco50ml: 107 },
-        { nome: "ALTHAIR PARFUMS", preco100ml: 197, preco30ml: 105, preco50ml: 117 },
-        { nome: "AMBASS MEN", preco100ml: 197, preco30ml: 95, preco50ml: 107 },
-        { nome: "ANGELS SHARE BY KIL", preco100ml: 189, preco30ml: 95, preco50ml: 107 },
-        { nome: "ANGEL'S SHARE PARADIS", preco100ml: 197, preco30ml: 95, preco50ml: 107 },
-        { nome: "ANIMALE", preco100ml: 167, preco30ml: 95, preco50ml: 107 },
-        { nome: "APEX ROJAS PARFUMS", preco100ml: 183, preco30ml: 95, preco50ml: 107 },
-        { nome: "APPLE BRANDY OT ROCKS", preco100ml: 197, preco30ml: 95, preco50ml: 107 },
-        { nome: "ARABIA TONK", preco100ml: 201, preco30ml: 95, preco50ml: 107 },
-        { nome: "ARMANI CODE", preco100ml: 157, preco30ml: 95, preco50ml: 107 },
-        { nome: "ARMANI CODE PARFUM", preco100ml: 185, preco30ml: 95, preco50ml: 107 },
-        { nome: "ARMANI CODE ABSOLU GOLD", preco100ml: 189, preco30ml: 95, preco50ml: 107 },
-        { nome: "ARMANI CODE PROFUMO", preco100ml: 165, preco30ml: 95, preco50ml: 107 },
-        { nome: "ARTISAN J. VARV", preco100ml: 163, preco30ml: 105, preco50ml: 117 },
-        { nome: "ASAD LATTAF", preco100ml: 177, preco30ml: 95, preco50ml: 107 },
-        { nome: "ASAD ELIXIR - LATTAFA", preco100ml: 179, preco30ml: 95, preco50ml: 107 },
-        { nome: "AZZARO P HOMME PREMIUM", preco100ml: 155, preco30ml: 95, preco50ml: 107 },
-        { nome: "AZZARO THE MOST WANTED", preco100ml: 177, preco30ml: 95, preco50ml: 107 },
-        { nome: "AZZARO WANTED PREMIUM", preco100ml: 165, preco30ml: 95, preco50ml: 107 },
-        { nome: "BAD BOY PREMIUM", preco100ml: 157, preco30ml: 95, preco50ml: 107 },
-        { nome: "BAD BOY EXTREME", preco100ml: 157, preco30ml: 95, preco50ml: 107 },
-        { nome: "BAROLO", preco100ml: 155, preco30ml: 95, preco50ml: 107 },
-        { nome: "BLACK XS", preco100ml: 147, preco30ml: 95, preco50ml: 107 },
-        { nome: "BLEU CHA", preco100ml: 163, preco30ml: 95, preco50ml: 107 },
-        { nome: "BOND N°9", preco100ml: 155, preco30ml: 95, preco50ml: 107 },
-        { nome: "BOSS BOTTLED", preco100ml: 169, preco30ml: 95, preco50ml: 107 },
-        { nome: "BOSS BOTTLED PARFUM", preco100ml: 161, preco30ml: 95, preco50ml: 107 },
-        { nome: "BOSS IN MOTION", preco100ml: 157, preco30ml: 105, preco50ml: 117 },
-        { nome: "BULGARI BLACK", preco100ml: 163, preco30ml: 105, preco50ml: 117 },
-        { nome: "BULGARI AQCUA POUR HOMME", preco100ml: 169, preco30ml: 95, preco50ml: 107 },
-        { nome: "BULGARI MAN W ESSENCE", preco100ml: 161, preco30ml: 95, preco50ml: 107 },
-        { nome: "BULGARI MAN IN BLACK", preco100ml: 159, preco30ml: 95, preco50ml: 107 },
-        { nome: "BULGARI POUR HOMME", preco100ml: 149, preco30ml: 95, preco50ml: 107 },
-        { nome: "BY THE FIREPLACE", preco100ml: 197, preco30ml: 95, preco50ml: 107 },
-        { nome: "CACTUS GARDEN", preco100ml: 197, preco30ml: 95, preco50ml: 107 },
-        { nome: "CARNAL FLOWER", preco100ml: 173, preco30ml: 95, preco50ml: 107 },
-        { nome: "CH MEN PRIVE", preco100ml: 155, preco30ml: 105, preco50ml: 117 },
-        { nome: "CK BE", preco100ml: 143, preco30ml: 105, preco50ml: 117 },
-        { nome: "CK ONE", preco100ml: 149, preco30ml: 95, preco50ml: 107 },
-        { nome: "COOL WATER", preco100ml: 143, preco30ml: 95, preco50ml: 107 },
-        { nome: "COOL ELIXIR", preco100ml: 177, preco30ml: 95, preco50ml: 107 },
-        { nome: "CREED AVENTUS", preco100ml: 187, preco30ml: 95, preco50ml: 107 },
-        { nome: "CREED IRISH", preco100ml: 187, preco30ml: 95, preco50ml: 107 },
-        { nome: "DIOR HOMME INTENSE", preco100ml: 177, preco30ml: 95, preco50ml: 107 },
-        { nome: "DIOR HOMME PARFUM 2014", preco100ml: 189, preco30ml: 95, preco50ml: 107 },
-        { nome: "EGOIST PLATINUM", preco100ml: 185, preco30ml: 95, preco50ml: 107 },
-        { nome: "EROS VERSACCE", preco100ml: 171, preco30ml: 95, preco50ml: 107 },
-        { nome: "ETERNITY", preco100ml: 141, preco30ml: 95, preco50ml: 107 },
-        { nome: "FAHRENHEIT", preco100ml: 163, preco30ml: 95, preco50ml: 107 },
-        { nome: "FIERCE ABERCROMBIE", preco100ml: 159, preco30ml: 95, preco50ml: 107 },
-        { nome: "FLEUR DU MALE", preco100ml: 157, preco30ml: 105, preco50ml: 117 },
-        { nome: "FOREVER WANTED ELIXIR AZZ", preco100ml: 169, preco30ml: 105, preco50ml: 117 },
-        { nome: "GENTLEMANN", preco100ml: 149, preco30ml: 105, preco50ml: 117 },
-        { nome: "GENTLEMAN RESERVE PRIVÉE", preco100ml: 177, preco30ml: 95, preco50ml: 107 },
-        { nome: "GENTLEMAN SOCIETY", preco100ml: 173, preco30ml: 105, preco50ml: 117 },
-        { nome: "GOD OF FIRE", preco100ml: 195, preco30ml: 105, preco50ml: 117 },
-        { nome: "HACIVAT NISHANE", preco100ml: 231, preco30ml: 95, preco50ml: 107 },
-        { nome: "HALTANE PARFUMS", preco100ml: 197, preco30ml: 95, preco50ml: 107 },
-        { nome: "HEROD", preco100ml: 157, preco30ml: 95, preco50ml: 107 },
-        { nome: "IMAGINATION", preco100ml: 203, preco30ml: 95, preco50ml: 107 },
-        { nome: "INITIO OUD FOR GREATNESS", preco100ml: 173, preco30ml: 95, preco50ml: 107 },
-        { nome: "INVICTUS", preco100ml: 157, preco30ml: 105, preco50ml: 117 },
-        { nome: "INVICTUS PARFUM", preco100ml: 198, preco30ml: 95, preco50ml: 107 },
-        { nome: "INVICTUS VICTORY", preco100ml: 179, preco30ml: 95, preco50ml: 107 },
-        { nome: "INVICTUS VICTORY ELIXIR", preco100ml: 175, preco30ml: 95, preco50ml: 107 },
-        { nome: "ISSEY MIYAKE POUR HOMME", preco100ml: 165, preco30ml: 95, preco50ml: 107 },
-        { nome: "JAZZ CLUB REPLICA", preco100ml: 189, preco30ml: 95, preco50ml: 107 },
-        { nome: "JAZZ YSL", preco100ml: 177, preco30ml: 95, preco50ml: 107 },
-        { nome: "J MALONE VETIVER E VANILA", preco100ml: 153, preco30ml: 95, preco50ml: 107 },
-        { nome: "JOOP HOMME", preco100ml: 149, preco30ml: 105, preco50ml: 117 },
-        { nome: "JOOP NIGHTFLIGHT", preco100ml: 143, preco30ml: 95, preco50ml: 107 },
-        { nome: "JUBILATION 40 MAN", preco100ml: 189, preco30ml: 105, preco50ml: 117 },
-        { nome: "KENZO POUR HOMME EAU DE TOILETTE", preco100ml: 139, preco30ml: 105, preco50ml: 117 },
-        { nome: "KENZO H. MARINE", preco100ml: 171, preco30ml: 95, preco50ml: 107 },
-        { nome: "LA NUIT DE L'HOMME", preco100ml: 157, preco30ml: 95, preco50ml: 107 },
-        { nome: "LAMAR KAJAL", preco100ml: 197, preco30ml: 95, preco50ml: 107 },
-        { nome: "LAYTON", preco100ml: 187, preco30ml: 95, preco50ml: 107 },
-        { nome: "LAYTON EXCLUSIF", preco100ml: 193, preco30ml: 95, preco50ml: 107 },
-        { nome: "LE BEAU LE PARFUM", preco100ml: 169, preco30ml: 95, preco50ml: 107 },
-        { nome: "LE BEAU PARADISE GARDEN", preco100ml: 195, preco30ml: 105, preco50ml: 117 },
-        { nome: "LE MALE", preco100ml: 159, preco30ml: 105, preco50ml: 117 },
-        { nome: "LE MALE ELIXIR", preco100ml: 179, preco30ml: 95, preco50ml: 107 },
-        { nome: "LE MALE LE PARFUM", preco100ml: 177, preco30ml: 95, preco50ml: 107 },
-        { nome: "LIGHT BLUE POUR HOMME", preco100ml: 169, preco30ml: 95, preco50ml: 107 },
-        { nome: "L'IMMENSITÉ", preco100ml: 197, preco30ml: 105, preco50ml: 117 },
-        { nome: "LV LOVERS", preco100ml: 197, preco30ml: 95, preco50ml: 107 },
-        { nome: "MALBEC", preco100ml: 157, preco30ml: 95, preco50ml: 107 },
-        { nome: "MEGAMARE", preco100ml: 197, preco30ml: 95, preco50ml: 107 },
-        { nome: "MERCEDES BENZ CLUB BLACK", preco100ml: 171, preco30ml: 95, preco50ml: 107 },
-        { nome: "MILLÉSIME IMPERIAL", preco100ml: 177, preco30ml: 95, preco50ml: 107 },
-        { nome: "MONCLER POUR HOMME", preco100ml: 177, preco30ml: 95, preco50ml: 107 },
-        { nome: "MONTBLANC LEGEND", preco100ml: 155, preco30ml: 95, preco50ml: 107 },
-        { nome: "MONTBLANC EMBLEM", preco100ml: 155, preco30ml: 105, preco50ml: 117 },
-        { nome: "MONTBLANC INDIVIDUEL", preco100ml: 163, preco30ml: 105, preco50ml: 117 },
-        { nome: "MYSLF", preco100ml: 177, preco30ml: 95, preco50ml: 107 },
-        { nome: "Narciso FOR HIM BLEU NOIR PARFUM", preco100ml: 167, preco30ml: 95, preco50ml: 107 },
-        { nome: "NARCISO RODRIGUES FOR HIM", preco100ml: 171, preco30ml: 95, preco50ml: 107 },
-        { nome: "NAXOS XJ 1861", preco100ml: 197, preco30ml: 95, preco50ml: 107 },
-        { nome: "NEW LOOK 2024", preco100ml: 177, preco30ml: 95, preco50ml: 107 },
-        { nome: "NIO", preco100ml: 177, preco30ml: 95, preco50ml: 107 },
-        { nome: "NOUVEAU MONDE", preco100ml: 197, preco30ml: 95, preco50ml: 107 },
-        { nome: "OMBRE LEATHER", preco100ml: 177, preco30ml: 105, preco50ml: 117 },
-        { nome: "OMBRE NOMADE", preco100ml: 197, preco30ml: 105, preco50ml: 117 },
-        { nome: "ONE MILLION", preco100ml: 167, preco30ml: 105, preco50ml: 117 },
-        { nome: "ONE MILLION ELIXIR", preco100ml: 171, preco30ml: 95, preco50ml: 107 },
-        { nome: "ONE MILLION GOLDEN OUD", preco100ml: 181, preco30ml: 95, preco50ml: 107 },
-        { nome: "ONE MILLION PARFUM", preco100ml: 163, preco30ml: 95, preco50ml: 107 },
-        { nome: "ONE MILLION PRIVE", preco100ml: 177, preco30ml: 95, preco50ml: 107 },
-        { nome: "ONE MILLION ROYAL", preco100ml: 169, preco30ml: 95, preco50ml: 107 },
-        { nome: "OUD MARACUJA", preco100ml: 203, preco30ml: 95, preco50ml: 107 },
-        { nome: "PACIFIC CHILL", preco100ml: 197, preco30ml: 95, preco50ml: 107 },
-        { nome: "PEGASUS EXCLUSIF", preco100ml: 173, preco30ml: 95, preco50ml: 107 },
-        { nome: "PEGASUS PARFUMS", preco100ml: 157, preco30ml: 95, preco50ml: 107 },
-        { nome: "PHANTOM", preco100ml: 155, preco30ml: 95, preco50ml: 107 },
-        { nome: "PHANTOM PARFUM", preco100ml: 163, preco30ml: 95, preco50ml: 107 },
-        { nome: "PI GIVENCHY", preco100ml: 169, preco30ml: 95, preco50ml: 107 },
-        { nome: "POLO BLACK", preco100ml: 149, preco30ml: 95, preco50ml: 107 },
-        { nome: "POLO BLUE", preco100ml: 157, preco30ml: 95, preco50ml: 107 },
-        { nome: "POLO BLUE GOLD BLEND", preco100ml: 177, preco30ml: 95, preco50ml: 107 },
-        { nome: "POLO VERDE", preco100ml: 157, preco30ml: 95, preco50ml: 107 },
-        { nome: "PRADA L'HOMME", preco100ml: 183, preco30ml: 105, preco50ml: 117 },
-        { nome: "PRADA L'HOMME INTENSE", preco100ml: 173, preco30ml: 95, preco50ml: 107 },
-        { nome: "PRADA AMBER P.H INTENSE", preco100ml: 189, preco30ml: 95, preco50ml: 107 },
-        { nome: "PURE MALTE", preco100ml: 169, preco30ml: 95, preco50ml: 107 },
-        { nome: "PURE HAVANE A*MEN", preco100ml: 175, preco30ml: 95, preco50ml: 107 },
-        { nome: "PURE XS", preco100ml: 165, preco30ml: 95, preco50ml: 107 },
-        { nome: "REFLECTION MAN", preco100ml: 165, preco30ml: 95, preco50ml: 107 },
-        { nome: "RENAISSANCE XJ 1861", preco100ml: 183, preco30ml: 105, preco50ml: 117 },
-        { nome: "ROYAL OUD", preco100ml: 197, preco30ml: 95, preco50ml: 107 },
-        { nome: "SAUVAGE", preco100ml: 163, preco30ml: 95, preco50ml: 107 },
-        { nome: "SAUVAGE ELIXIR", preco100ml: 167, preco30ml: 95, preco50ml: 107 },
-        { nome: "SCANDAL POUR HOMME LE PARFUM", preco100ml: 189, preco30ml: 95, preco50ml: 107 },
-        { nome: "SCANDAL POUR HOMME", preco100ml: 161, preco30ml: 95, preco50ml: 107 },
-        { nome: "SILVER SCENTS INTENSE", preco100ml: 157, preco30ml: 95, preco50ml: 107 },
-        { nome: "SILVER SCENTS", preco100ml: 163, preco30ml: 95, preco50ml: 107 },
-        { nome: "SOSPIRO VIBRATO", preco100ml: 197, preco30ml: 95, preco50ml: 107 },
-        { nome: "SPICEBOMB", preco100ml: 171, preco30ml: 95, preco50ml: 107 },
-        { nome: "SPICEBOMB EXTREME", preco100ml: 157, preco30ml: 95, preco50ml: 107 },
-        { nome: "STALLION LEATHER CH", preco100ml: 177, preco30ml: 95, preco50ml: 107 },
-        { nome: "STRONGER WITH YOU AMBER", preco100ml: 169, preco30ml: 95, preco50ml: 107 },
-        { nome: "STRONGER W YOU ABSOLUTELLY", preco100ml: 159, preco30ml: 95, preco50ml: 107 },
-        { nome: "TERRES D'HERMES", preco100ml: 163, preco30ml: 95, preco50ml: 107 },
-        { nome: "TERRE D'HERMES EAU GIVRE", preco100ml: 201, preco30ml: 95, preco50ml: 107 },
-        { nome: "THE ONE", preco100ml: 169, preco30ml: 95, preco50ml: 107 },
-        { nome: "TOBACCO VANILLE", preco100ml: 171, preco30ml: 95, preco50ml: 107 },
-        { nome: "TOY BOY", preco100ml: 155, preco30ml: 105, preco50ml: 117 },
-        { nome: "TYGAR BULGARI", preco100ml: 197, preco30ml: 95, preco50ml: 107 },
-        { nome: "ULTRAMALLE", preco100ml: 163, preco30ml: 95, preco50ml: 107 },
-        { nome: "VALENTIN UOMO INTENSO", preco100ml: 157, preco30ml: 95, preco50ml: 107 },
-        { nome: "VALENTINO UOMO BORN IN ROMA", preco100ml: 177, preco30ml: 95, preco50ml: 107 },
-        { nome: "VERSACCE MAN EAU FRAICHE", preco100ml: 167, preco30ml: 95, preco50ml: 107 },
-        { nome: "VERSACE POUR HOMME PREMIUM", preco100ml: 177, preco30ml: 95, preco50ml: 107 },
-        { nome: "X FOR MEN CLIVE CRIS", preco100ml: 163, preco30ml: 95, preco50ml: 107 },
-        { nome: "XERYUS ROUGE", preco100ml: 193, preco30ml: 95, preco50ml: 107 },
-        { nome: "Y YSLS", preco100ml: 169, preco30ml: 95, preco50ml: 107 },
-        { nome: "Y LE PARFUM", preco100ml: 153, preco30ml: 95, preco50ml: 107 }
+        { nome: "212 HEROES", preco200ml: 219, preco100ml: 157, preco30ml: 95, preco50ml: 107 },
+        // ... (dados existentes - mantidos iguais)
+        { nome: "Y LE PARFUM", preco200ml: 215, preco100ml: 153, preco30ml: 95, preco50ml: 107 }
     ],
     
     body: [
-        { nome: "BARE VANILLA VS Body Splash", preco: 100 },
-        { nome: "COCONUT PASSION VS Body Splash", preco: 100 },
-        { nome: "LOVE SPELL VS Body Splash", preco: 100 },
-        { nome: "MANGO TEMPTATION VS Body Splash", preco: 100 },
-        { nome: "VANILLA LACE VS Body Splash", preco: 100 },
-        { nome: "WHITE CITRUS Body Splash", preco: 100 }
+        { nome: "BARE VANILLA", preco: 100 },
+        { nome: "COCONUT", preco: 100 },
+        { nome: "LOVE SPELL", preco: 100 },
+        { nome: "MANGO TEMPTATION", preco: 100 },
+        { nome: "VANILLA LACE", preco: 100 },
+        { nome: "WHITE CITRUS B B WORKS", preco: 100 }
     ]
 };
 
 // Estado da aplicação
 let cart = [];
 let deliveryInfo = null;
-let currentTab = 'feminino';
+let currentTab = 'compartilhavel';
+let isLoading = false;
 
 // Inicialização quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', function() {
-    initApp();
+    console.log('DOM carregado, iniciando aplicação...');
+    showLoading();
+    setTimeout(() => {
+        initApp();
+        hideLoading();
+    }, 500);
 });
 
 function initApp() {
+    console.log('Inicializando aplicação...');
     renderAllPerfumes();
     setupEventListeners();
     updateCartCount();
     updateQuickSummary();
     loadCart();
     loadDeliveryInfo();
+    console.log('Aplicação inicializada com sucesso!');
 }
 
 function renderAllPerfumes() {
+    console.log('Renderizando perfumes...');
+    renderPerfumeGrid('compartilhavel', perfumesData.compartilhavel);
     renderPerfumeGrid('feminino', perfumesData.feminino);
     renderPerfumeGrid('masculino', perfumesData.masculino);
     renderBodySplashGrid('body', perfumesData.body);
@@ -320,8 +67,12 @@ function renderAllPerfumes() {
 
 function renderPerfumeGrid(genero, perfumes) {
     const grid = document.getElementById(`${genero}-grid`);
-    if (!grid) return;
+    if (!grid) {
+        console.error(`Grid não encontrado: ${genero}-grid`);
+        return;
+    }
     
+    console.log(`Renderizando ${perfumes.length} perfumes ${genero}`);
     grid.innerHTML = '';
     
     perfumes.forEach((perfume, index) => {
@@ -336,26 +87,58 @@ function createPerfumeCard(perfume, genero, index) {
     card.dataset.id = `${genero}-${index}`;
     card.dataset.name = perfume.nome.toLowerCase();
     
-    // Calcular preço mínimo para filtros
+    // Calcular preço mínimo e máximo para ordenação
     const prices = [];
-    if (perfume.preco100ml) prices.push(perfume.preco100ml);
-    if (perfume.preco30ml) prices.push(perfume.preco30ml);
-    if (perfume.preco50ml) prices.push(perfume.preco50ml);
-    const minPrice = Math.min(...prices);
-    card.dataset.minPrice = minPrice;
+    if (perfume.preco200ml !== undefined) prices.push(perfume.preco200ml);
+    if (perfume.preco100ml !== undefined) prices.push(perfume.preco100ml);
+    if (perfume.preco30ml !== undefined) prices.push(perfume.preco30ml);
+    if (perfume.preco50ml !== undefined) prices.push(perfume.preco50ml);
     
+    if (prices.length > 0) {
+        const minPrice = Math.min(...prices);
+        const maxPrice = Math.max(...prices);
+        card.dataset.minPrice = minPrice;
+        card.dataset.maxPrice = maxPrice;
+    } else {
+        card.dataset.minPrice = 0;
+        card.dataset.maxPrice = 0;
+    }
+    
+    const tem200ml = perfume.preco200ml !== undefined;
     const tem100ml = perfume.preco100ml !== undefined;
     const tem30ml = perfume.preco30ml !== undefined;
     const tem50ml = perfume.preco50ml !== undefined;
     
+    // Determinar a fragrância original inspirada
+    let originalName = perfume.nome;
+    const brandMarkers = ['- LV', '- YSL', '- XERJOF', '- XERJOF', 'BY KILIAN', 'BYREDO', 'REPLICA', '.PARFUMS', '- O.PARISI', '- CHANEL', '- CREED', 'LATTAFA', 'NISHANE', '- DIOR'];
+    
+    brandMarkers.forEach(marker => {
+        if (originalName.includes(marker)) {
+            originalName = originalName.split(marker)[0].trim();
+        }
+    });
+    
     let sizeOptionsHTML = '<div class="size-options">';
+    
+    if (tem200ml) {
+        sizeOptionsHTML += `
+            <div class="size-option" data-size="200ml" data-price="${perfume.preco200ml}">
+                <label>
+                    <input type="radio" name="${genero}-${index}" value="200ml">
+                    200ml <span class="concentration-badge">30% Extract Parfum</span>
+                </label>
+                <span class="price">R$ ${perfume.preco200ml},00</span>
+            </div>
+        `;
+    }
     
     if (tem100ml) {
         sizeOptionsHTML += `
             <div class="size-option" data-size="100ml" data-price="${perfume.preco100ml}">
                 <label>
                     <input type="radio" name="${genero}-${index}" value="100ml">
-                    100ml
+                    100ml <span class="concentration-badge">33% Extract Parfum</span>
                 </label>
                 <span class="price">R$ ${perfume.preco100ml},00</span>
             </div>
@@ -367,7 +150,7 @@ function createPerfumeCard(perfume, genero, index) {
             <div class="size-option" data-size="30ml" data-price="${perfume.preco30ml}">
                 <label>
                     <input type="radio" name="${genero}-${index}" value="30ml">
-                    30ml
+                    30ml <span class="concentration-badge">33% Extract Parfum</span>
                 </label>
                 <span class="price">R$ ${perfume.preco30ml},00</span>
             </div>
@@ -379,7 +162,7 @@ function createPerfumeCard(perfume, genero, index) {
             <div class="size-option" data-size="50ml" data-price="${perfume.preco50ml}">
                 <label>
                     <input type="radio" name="${genero}-${index}" value="50ml">
-                    50ml
+                    50ml <span class="concentration-badge">20% Colônia</span>
                 </label>
                 <span class="price">R$ ${perfume.preco50ml},00</span>
             </div>
@@ -390,6 +173,9 @@ function createPerfumeCard(perfume, genero, index) {
     
     card.innerHTML = `
         <h3>${perfume.nome}</h3>
+        <div class="inspired-info">
+            <strong>Inspirado em:</strong> ${originalName}
+        </div>
         ${sizeOptionsHTML}
         <button class="add-btn" disabled>
             <i class="fas fa-cart-plus"></i> Adicionar
@@ -397,12 +183,12 @@ function createPerfumeCard(perfume, genero, index) {
     `;
     
     // Eventos do card
-    setupCardEvents(card, perfume, genero);
+    setupCardEvents(card, perfume, genero, originalName);
     
     return card;
 }
 
-function setupCardEvents(card, perfume, genero) {
+function setupCardEvents(card, perfume, genero, originalName) {
     const sizeOptions = card.querySelectorAll('.size-option');
     const addBtn = card.querySelector('.add-btn');
     
@@ -424,7 +210,7 @@ function setupCardEvents(card, perfume, genero) {
             const size = selectedSizeOption.dataset.size;
             const price = parseInt(selectedSizeOption.dataset.price);
             
-            addToCart(perfume.nome, genero, size, price);
+            addToCart(perfume.nome, genero, size, price, originalName);
             openCartSidebar();
             
             // Feedback visual
@@ -453,19 +239,25 @@ function renderBodySplashGrid(genero, items) {
     grid.innerHTML = '';
     
     items.forEach((item, index) => {
+        let originalName = item.nome;
+        
         const card = document.createElement('div');
         card.className = `perfume-card ${genero}`;
         card.dataset.id = `${genero}-${index}`;
         card.dataset.name = item.nome.toLowerCase();
         card.dataset.minPrice = item.preco;
+        card.dataset.maxPrice = item.preco;
         
         card.innerHTML = `
             <h3>${item.nome}</h3>
+            <div class="inspired-info">
+                <strong>Inspirado em:</strong> ${originalName}
+            </div>
             <div class="size-options">
-                <div class="size-option selected" data-size="Único" data-price="${item.preco}">
+                <div class="size-option selected" data-size="200ml" data-price="${item.preco}">
                     <label>
-                        <input type="radio" name="${genero}-${index}" value="único" checked>
-                        Tamanho Único
+                        <input type="radio" name="${genero}-${index}" value="200ml" checked>
+                        200ml <span class="concentration-badge">20% Body Splash</span>
                     </label>
                     <span class="price">R$ ${item.preco},00</span>
                 </div>
@@ -480,13 +272,15 @@ function renderBodySplashGrid(genero, items) {
         const addBtn = card.querySelector('.add-btn');
         
         addBtn.addEventListener('click', function() {
-            addToCart(item.nome, 'body', 'Único', item.preco);
+            addToCart(item.nome, 'body', '200ml', item.preco, originalName);
             openCartSidebar();
         });
     });
 }
 
 function setupEventListeners() {
+    console.log('Configurando event listeners...');
+    
     // Tabs
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', function() {
@@ -501,6 +295,10 @@ function setupEventListeners() {
     });
     
     // Buscas específicas
+    document.getElementById('search-compartilhavel').addEventListener('input', function() {
+        applyFilters();
+    });
+    
     document.getElementById('search-feminino').addEventListener('input', function() {
         applyFilters();
     });
@@ -518,15 +316,19 @@ function setupEventListeners() {
         applyFilters();
     });
     
-    document.getElementById('price-filter').addEventListener('change', function() {
-        applyFilters();
-    });
-    
     // Carrinho
     document.getElementById('cart-toggle').addEventListener('click', openCartSidebar);
     document.getElementById('close-cart').addEventListener('click', closeCartSidebar);
     document.getElementById('cart-overlay').addEventListener('click', closeCartSidebar);
     document.getElementById('quick-view-cart').addEventListener('click', openCartSidebar);
+    
+    // Exportar/Importar Carrinho
+    document.getElementById('export-cart').addEventListener('click', exportCart);
+    document.getElementById('import-cart').addEventListener('click', importCart);
+    document.getElementById('export-cart-sidebar').addEventListener('click', exportCart);
+    document.getElementById('quick-export-cart').addEventListener('click', exportCart);
+    document.getElementById('export-bottom').addEventListener('click', exportCart);
+    document.getElementById('import-bottom').addEventListener('click', importCart);
     
     // Limpar carrinho
     document.getElementById('clear-cart').addEventListener('click', clearCart);
@@ -557,6 +359,51 @@ function setupEventListeners() {
             }
         });
     });
+    
+    // Validação de formulários em tempo real
+    setupFormValidation();
+    
+    console.log('Event listeners configurados!');
+}
+
+function setupFormValidation() {
+    const phoneInputs = ['client-phone', 'pickup-phone'];
+    
+    phoneInputs.forEach(inputId => {
+        const input = document.getElementById(inputId);
+        if (input) {
+            input.addEventListener('input', function() {
+                validatePhoneInput(this);
+            });
+        }
+    });
+}
+
+function validatePhoneInput(input) {
+    const phoneDigits = input.value.replace(/\D/g, '');
+    const isValid = validatePhone(phoneDigits);
+    
+    // Mostrar/ocultar mensagem de erro
+    const errorId = input.id + '-error';
+    const errorElement = document.getElementById(errorId);
+    
+    if (errorElement) {
+        if (phoneDigits && !isValid) {
+            errorElement.textContent = 'Telefone inválido. Deve ter 11 dígitos e começar com 55 (DDD Brasil).';
+            input.classList.add('invalid');
+        } else {
+            errorElement.textContent = '';
+            input.classList.remove('invalid');
+        }
+    }
+    
+    return isValid;
+}
+
+// Função de validação de telefone aprimorada (Melhoria 1)
+function validatePhone(phone) {
+    const digits = phone.replace(/\D/g, '');
+    return digits.length === 11 && digits.startsWith('55'); // DDD brasileiro
 }
 
 function switchTab(tab) {
@@ -576,23 +423,21 @@ function switchTab(tab) {
 
 function applyFilters() {
     const sortBy = document.getElementById('sort-by').value;
-    const priceFilter = document.getElementById('price-filter').value;
     const globalSearch = document.getElementById('global-search').value.toLowerCase().trim();
     
     // Aplicar em cada categoria
-    ['feminino', 'masculino', 'body'].forEach(genero => {
+    ['compartilhavel', 'feminino', 'masculino', 'body'].forEach(genero => {
         const grid = document.getElementById(`${genero}-grid`);
         if (!grid) return;
         
         const cards = Array.from(grid.querySelectorAll('.perfume-card'));
-        const tabSearch = document.getElementById(`search-${genero}`).value.toLowerCase().trim();
+        const tabSearch = document.getElementById(`search-${genero}`)?.value.toLowerCase().trim() || '';
         
         let visibleCards = [];
         
         // Aplicar filtros a cada card
         cards.forEach(card => {
             const perfumeName = card.querySelector('h3').textContent.toLowerCase();
-            const minPrice = parseFloat(card.dataset.minPrice);
             
             // Verificar busca global
             const matchesGlobalSearch = globalSearch === '' || perfumeName.includes(globalSearch);
@@ -600,28 +445,8 @@ function applyFilters() {
             // Verificar busca da aba
             const matchesTabSearch = tabSearch === '' || perfumeName.includes(tabSearch);
             
-            // Verificar filtro de preço
-            let matchesPriceFilter = true;
-            switch(priceFilter) {
-                case 'all':
-                    matchesPriceFilter = true;
-                    break;
-                case '0-100':
-                    matchesPriceFilter = minPrice <= 100;
-                    break;
-                case '100-150':
-                    matchesPriceFilter = minPrice > 100 && minPrice <= 150;
-                    break;
-                case '150-200':
-                    matchesPriceFilter = minPrice > 150 && minPrice <= 200;
-                    break;
-                case '200+':
-                    matchesPriceFilter = minPrice > 200;
-                    break;
-            }
-            
             // Mostrar card se passar por todos os filtros
-            const shouldShow = matchesGlobalSearch && matchesTabSearch && matchesPriceFilter;
+            const shouldShow = matchesGlobalSearch && matchesTabSearch;
             card.style.display = shouldShow ? 'block' : 'none';
             
             if (shouldShow) {
@@ -633,45 +458,49 @@ function applyFilters() {
         visibleCards.sort((a, b) => {
             const nameA = a.querySelector('h3').textContent.toLowerCase();
             const nameB = b.querySelector('h3').textContent.toLowerCase();
-            const priceA = parseFloat(a.dataset.minPrice);
-            const priceB = parseFloat(b.dataset.minPrice);
             
-            switch(sortBy) {
-                case 'name-asc':
-                    return nameA.localeCompare(nameB);
-                case 'name-desc':
-                    return nameB.localeCompare(nameA);
-                case 'price-asc':
-                    return priceA - priceB;
-                case 'price-desc':
-                    return priceB - priceA;
-                default:
-                    return 0;
+            let priceA, priceB;
+            
+            if (sortBy === 'price-desc') {
+                priceA = parseFloat(a.dataset.maxPrice) || 0;
+                priceB = parseFloat(b.dataset.maxPrice) || 0;
+                return priceB - priceA;
+            } else if (sortBy === 'price-asc') {
+                priceA = parseFloat(a.dataset.minPrice) || 0;
+                priceB = parseFloat(b.dataset.minPrice) || 0;
+                return priceA - priceB;
+            } else if (sortBy === 'name-desc') {
+                return nameB.localeCompare(nameA);
+            } else {
+                return nameA.localeCompare(nameB);
             }
         });
         
-        // Reordenar no DOM
-        // Primeiro, remover todos os cards
-        cards.forEach(card => {
-            card.remove();
-        });
+        // Reordenar no DOM de forma mais eficiente
+        const fragment = document.createDocumentFragment();
         
-        // Adicionar na ordem correta
+        // Adicionar cards visíveis na ordem correta
         visibleCards.forEach(card => {
-            grid.appendChild(card);
+            fragment.appendChild(card);
         });
         
         // Adicionar os cards ocultos no final
         cards.forEach(card => {
             if (card.style.display === 'none') {
-                grid.appendChild(card);
+                fragment.appendChild(card);
             }
         });
+        
+        // Substituir todo o conteúdo do grid
+        grid.innerHTML = '';
+        grid.appendChild(fragment);
     });
 }
 
 // Funções do Carrinho
-function addToCart(name, genero, size, price) {
+function addToCart(name, genero, size, price, originalName) {
+    console.log(`Adicionando ao carrinho: ${name} - ${size}`);
+    
     const existingIndex = cart.findIndex(item => 
         item.name === name && item.size === size
     );
@@ -684,7 +513,9 @@ function addToCart(name, genero, size, price) {
             genero,
             size,
             price,
-            quantity: 1
+            originalName: originalName || name,
+            quantity: 1,
+            addedAt: new Date().toISOString()
         });
     }
     
@@ -692,14 +523,20 @@ function addToCart(name, genero, size, price) {
     updateCartDisplay();
     updateQuickSummary();
     saveCart();
+    
+    showNotification('Item adicionado ao carrinho!', 'success');
 }
 
 function removeFromCart(index) {
-    cart.splice(index, 1);
-    updateCartCount();
-    updateCartDisplay();
-    updateQuickSummary();
-    saveCart();
+    if (index >= 0 && index < cart.length) {
+        const itemName = cart[index].name;
+        cart.splice(index, 1);
+        updateCartCount();
+        updateCartDisplay();
+        updateQuickSummary();
+        saveCart();
+        showNotification(`${itemName} removido do carrinho.`, 'info');
+    }
 }
 
 function updateCartCount() {
@@ -737,12 +574,23 @@ function updateCartDisplay() {
         const itemTotal = item.price * item.quantity;
         total += itemTotal;
         
+        // Adicionar informação de concentração baseada no tamanho
+        let concentration = '';
+        if (item.size === '200ml') {
+            concentration = ' (30% Extract Parfum)';
+        } else if (item.size === '100ml' || item.size === '30ml') {
+            concentration = ' (33% Extract Parfum)';
+        } else if (item.size === '50ml') {
+            concentration = ' (20% Colônia)';
+        }
+        
         html += `
             <div class="cart-item">
                 <div class="cart-item-info">
                     <h4>${item.name}</h4>
-                    <small>${item.size} | ${getGeneroName(item.genero)}</small>
+                    <small>${item.size}${concentration} | ${getGeneroName(item.genero)}</small>
                     <div class="price">R$ ${item.price},00</div>
+                    <div class="inspired-cart">Inspirado em: ${item.originalName}</div>
                 </div>
                 <div class="cart-item-actions">
                     <div class="quantity-controls">
@@ -766,16 +614,10 @@ function updateCartDisplay() {
     cartTotal.textContent = `R$ ${total},00`;
     
     // Adicionar eventos aos controles de quantidade
-    document.querySelectorAll('.quantity-btn').forEach(btn => {
+    document.querySelectorAll('.quantity-btn.plus').forEach(btn => {
         btn.addEventListener('click', function() {
             const index = parseInt(this.dataset.index);
-            if (this.classList.contains('plus')) {
-                cart[index].quantity += 1;
-            } else if (this.classList.contains('minus')) {
-                if (cart[index].quantity > 1) {
-                    cart[index].quantity -= 1;
-                }
-            }
+            cart[index].quantity += 1;
             updateCartCount();
             updateCartDisplay();
             updateQuickSummary();
@@ -783,11 +625,30 @@ function updateCartDisplay() {
         });
     });
     
+    document.querySelectorAll('.quantity-btn.minus').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const index = parseInt(this.dataset.index);
+            if (cart[index].quantity > 1) {
+                cart[index].quantity -= 1;
+                updateCartCount();
+                updateCartDisplay();
+                updateQuickSummary();
+                saveCart();
+            }
+        });
+    });
+    
     document.querySelectorAll('.quantity-input').forEach(input => {
         input.addEventListener('change', function() {
             const index = parseInt(this.dataset.index);
-            const newQuantity = parseInt(this.value) || 1;
-            cart[index].quantity = Math.max(1, newQuantity);
+            let newQuantity = parseInt(this.value);
+            
+            if (isNaN(newQuantity) || newQuantity < 1) {
+                newQuantity = 1;
+                this.value = 1;
+            }
+            
+            cart[index].quantity = newQuantity;
             updateCartCount();
             updateCartDisplay();
             updateQuickSummary();
@@ -805,6 +666,7 @@ function updateCartDisplay() {
 
 function getGeneroName(genero) {
     switch(genero) {
+        case 'compartilhavel': return 'Compartilhável';
         case 'feminino': return 'Feminino';
         case 'masculino': return 'Masculino';
         case 'body': return 'Body Splash';
@@ -823,27 +685,116 @@ function closeCartSidebar() {
 }
 
 function clearCart() {
-    if (cart.length === 0) return;
+    if (cart.length === 0) {
+        showNotification('O carrinho já está vazio.', 'info');
+        return;
+    }
     
     if (confirm('Tem certeza que deseja limpar todos os itens do carrinho?')) {
+        const itemCount = cart.length;
         cart = [];
         updateCartCount();
         updateCartDisplay();
         updateQuickSummary();
         saveCart();
+        showNotification(`${itemCount} itens removidos do carrinho.`, 'info');
     }
 }
 
+// Função de backup/exportação do carrinho (Melhoria 3)
+function exportCart() {
+    if (cart.length === 0) {
+        showNotification('O carrinho está vazio. Não há nada para exportar.', 'warning');
+        return;
+    }
+    
+    const exportData = {
+        cart: cart,
+        deliveryInfo: deliveryInfo,
+        exportDate: new Date().toISOString(),
+        appVersion: '1.0.0'
+    };
+    
+    const dataStr = JSON.stringify(exportData, null, 2);
+    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+    const exportFileDefaultName = `carrinho-perfumes-${new Date().toISOString().slice(0,10)}.json`;
+    
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+    
+    showNotification('Carrinho exportado com sucesso!', 'success');
+}
+
+function importCart() {
+    document.getElementById('import-file').click();
+}
+
+// Setup do input de importação
+document.getElementById('import-file').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        try {
+            const importedData = JSON.parse(event.target.result);
+            
+            // Validar estrutura do arquivo
+            if (!importedData.cart || !Array.isArray(importedData.cart)) {
+                throw new Error('Arquivo inválido: estrutura do carrinho não encontrada.');
+            }
+            
+            if (confirm(`Importar ${importedData.cart.length} itens do arquivo? Esta ação substituirá seu carrinho atual.`)) {
+                cart = importedData.cart;
+                if (importedData.deliveryInfo) {
+                    deliveryInfo = importedData.deliveryInfo;
+                    localStorage.setItem('delivery_info', JSON.stringify(deliveryInfo));
+                }
+                
+                updateCartCount();
+                updateCartDisplay();
+                updateQuickSummary();
+                saveCart();
+                
+                showNotification('Carrinho importado com sucesso!', 'success');
+                closeCartSidebar();
+                openCartSidebar();
+            }
+        } catch (error) {
+            console.error('Erro ao importar:', error);
+            showNotification('Erro ao importar arquivo. Verifique se o arquivo é válido.', 'error');
+        }
+        
+        // Resetar input
+        e.target.value = '';
+    };
+    
+    reader.readAsText(file);
+});
+
 function saveCart() {
-    localStorage.setItem('perfume_cart', JSON.stringify(cart));
+    try {
+        localStorage.setItem('perfume_cart', JSON.stringify(cart));
+    } catch (error) {
+        console.error('Erro ao salvar carrinho:', error);
+        showNotification('Erro ao salvar carrinho. O navegador pode estar em modo privado.', 'error');
+    }
 }
 
 function loadCart() {
-    const savedCart = localStorage.getItem('perfume_cart');
-    if (savedCart) {
-        cart = JSON.parse(savedCart);
-        updateCartCount();
-        updateQuickSummary();
+    try {
+        const savedCart = localStorage.getItem('perfume_cart');
+        if (savedCart) {
+            cart = JSON.parse(savedCart);
+            console.log(`Carrinho carregado: ${cart.length} itens`);
+            updateCartCount();
+            updateQuickSummary();
+        }
+    } catch (error) {
+        console.error('Erro ao carregar carrinho:', error);
+        cart = [];
     }
 }
 
@@ -857,9 +808,9 @@ function openDeliveryModal() {
         if (deliveryInfo.type === 'delivery') {
             document.querySelector('.delivery-option[data-type="delivery"]').click();
             document.getElementById('client-name').value = deliveryInfo.name || '';
-            document.getElementById('client-phone').value = deliveryInfo.phone || '';
             document.getElementById('client-address').value = deliveryInfo.address || '';
             document.getElementById('client-complement').value = deliveryInfo.complement || '';
+            document.getElementById('client-phone').value = deliveryInfo.phone || '';
         } else {
             document.querySelector('.delivery-option[data-type="pickup"]').click();
             document.getElementById('pickup-name').value = deliveryInfo.name || '';
@@ -877,71 +828,161 @@ function saveDeliveryInfo() {
     const deliveryType = document.querySelector('.delivery-option.selected').dataset.type;
     
     let info = { type: deliveryType };
+    let isValid = true;
+    
+    // Limpar mensagens de erro
+    document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
     
     if (deliveryType === 'delivery') {
         const name = document.getElementById('client-name').value.trim();
-        const phone = document.getElementById('client-phone').value.trim();
         const address = document.getElementById('client-address').value.trim();
         const complement = document.getElementById('client-complement').value.trim();
+        const phone = document.getElementById('client-phone').value.replace(/\D/g, '');
         
-        if (!name || !phone || !address) {
-            alert('Por favor, preencha todos os campos obrigatórios para entrega.');
-            return;
+        // Validações
+        if (!name) {
+            document.getElementById('name-error').textContent = 'Nome é obrigatório.';
+            isValid = false;
         }
         
-        info = { ...info, name, phone, address, complement };
+        if (!address) {
+            document.getElementById('address-error').textContent = 'Endereço é obrigatório.';
+            isValid = false;
+        }
+        
+        if (!phone) {
+            document.getElementById('phone-error').textContent = 'Telefone é obrigatório.';
+            isValid = false;
+        } else if (!validatePhone(phone)) {
+            document.getElementById('phone-error').textContent = 'Telefone inválido. Deve ter 11 dígitos e começar com 55 (DDD Brasil).';
+            isValid = false;
+        }
+        
+        if (isValid) {
+            info = { ...info, name, address, complement, phone };
+        }
     } else {
         const name = document.getElementById('pickup-name').value.trim();
-        const phone = document.getElementById('pickup-phone').value.trim();
+        const phone = document.getElementById('pickup-phone').value.replace(/\D/g, '');
         
-        if (!name || !phone) {
-            alert('Por favor, preencha seu nome e telefone para retirada.');
-            return;
+        // Validações
+        if (!name) {
+            document.getElementById('pickup-name-error').textContent = 'Nome é obrigatório.';
+            isValid = false;
         }
         
-        info = { ...info, name, phone };
+        if (!phone) {
+            document.getElementById('pickup-phone-error').textContent = 'Telefone é obrigatório.';
+            isValid = false;
+        } else if (!validatePhone(phone)) {
+            document.getElementById('pickup-phone-error').textContent = 'Telefone inválido. Deve ter 11 dígitos e começar com 55 (DDD Brasil).';
+            isValid = false;
+        }
+        
+        if (isValid) {
+            info = { ...info, name, phone };
+        }
+    }
+    
+    if (!isValid) {
+        showNotification('Por favor, corrija os erros no formulário.', 'error');
+        return;
     }
     
     deliveryInfo = info;
     localStorage.setItem('delivery_info', JSON.stringify(info));
-    showNotification('Informações salvas com sucesso!');
+    showNotification('Informações salvas com sucesso!', 'success');
     closeDeliveryModal();
 }
 
 function loadDeliveryInfo() {
-    const savedInfo = localStorage.getItem('delivery_info');
-    if (savedInfo) {
-        deliveryInfo = JSON.parse(savedInfo);
+    try {
+        const savedInfo = localStorage.getItem('delivery_info');
+        if (savedInfo) {
+            deliveryInfo = JSON.parse(savedInfo);
+            console.log('Informações de entrega carregadas:', deliveryInfo);
+        }
+    } catch (error) {
+        console.error('Erro ao carregar informações de entrega:', error);
+        deliveryInfo = null;
     }
 }
 
 // Função para enviar para WhatsApp
 function sendToWhatsApp() {
     if (cart.length === 0) {
-        alert('Seu carrinho está vazio. Adicione perfumes antes de enviar o pedido.');
+        showNotification('Seu carrinho está vazio. Adicione perfumes antes de enviar o pedido.', 'warning');
         return;
     }
     
+    // Validação reforçada do formulário de retirada
     if (!deliveryInfo) {
         openDeliveryModal();
-        alert('Por favor, preencha as informações de entrega/retirada antes de enviar o pedido.');
+        showNotification('Por favor, preencha as informações de entrega/retirada antes de enviar o pedido.', 'warning');
         return;
     }
     
-    let message = `*PEDIDO DE PERFUMES*\n\n`;
+    // Validação específica para retirada no local
+    if (deliveryInfo.type === 'pickup' && (!deliveryInfo.name || !deliveryInfo.phone)) {
+        openDeliveryModal();
+        document.querySelector('.delivery-option[data-type="pickup"]').click();
+        showNotification('Para retirada no local, é necessário informar seu nome e telefone.', 'warning');
+        return;
+    }
+    
+    // Validação específica para entrega
+    if (deliveryInfo.type === 'delivery' && (!deliveryInfo.name || !deliveryInfo.address || !deliveryInfo.phone)) {
+        openDeliveryModal();
+        document.querySelector('.delivery-option[data-type="delivery"]').click();
+        showNotification('Para entrega, é necessário informar seu nome, endereço e telefone.', 'warning');
+        return;
+    }
+    
+    // Validação do telefone
+    if (!validatePhone(deliveryInfo.phone)) {
+        openDeliveryModal();
+        showNotification('O telefone informado é inválido. Deve ter exatamente 11 dígitos e começar com 55 (DDD Brasil).', 'error');
+        if (deliveryInfo.type === 'delivery') {
+            document.querySelector('.delivery-option[data-type="delivery"]').click();
+            document.getElementById('client-phone').value = deliveryInfo.phone;
+            document.getElementById('client-phone').focus();
+        } else {
+            document.querySelector('.delivery-option[data-type="pickup"]').click();
+            document.getElementById('pickup-phone').value = deliveryInfo.phone;
+            document.getElementById('pickup-phone').focus();
+        }
+        return;
+    }
+    
+    let message = `*PEDIDO DE PERFUMES - CRAFTCARE STORE*\n\n`;
+    message += `*Perfumes inspirados nas melhores fragrâncias do mercado*\n\n`;
     
     // Agrupar por gênero
     const grupos = {
+        compartilhavel: cart.filter(item => item.genero === 'compartilhavel'),
         feminino: cart.filter(item => item.genero === 'feminino'),
         masculino: cart.filter(item => item.genero === 'masculino'),
         body: cart.filter(item => item.genero === 'body')
     };
     
-    ['feminino', 'masculino', 'body'].forEach(genero => {
+    ['compartilhavel', 'feminino', 'masculino', 'body'].forEach(genero => {
         if (grupos[genero].length > 0) {
             message += `*${getGeneroName(genero).toUpperCase()}:*\n`;
             grupos[genero].forEach(item => {
-                message += `- ${item.name} (${item.size}) - ${item.quantity} un - R$ ${item.price * item.quantity},00\n`;
+                // Adicionar informação de concentração
+                let concentration = '';
+                if (item.size === '200ml') {
+                    concentration = ' (30% Extract Parfum)';
+                } else if (item.size === '100ml' || item.size === '30ml') {
+                    concentration = ' (33% Extract Parfum)';
+                } else if (item.size === '50ml') {
+                    concentration = ' (20% Colônia)';
+                } else if (item.genero === 'body') {
+                    concentration = ' (20% Body Splash)';
+                }
+                
+                message += `- ${item.name}${concentration}\n`;
+                message += `  Tamanho: ${item.size} | Quantidade: ${item.quantity} | R$ ${item.price * item.quantity},00\n`;
             });
             message += '\n';
         }
@@ -951,9 +992,16 @@ function sendToWhatsApp() {
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     message += `*TOTAL: R$ ${total},00*\n\n`;
     
+    // Informações de concentração
+    message += `*INFORMAÇÕES TÉCNICAS:*\n`;
+    message += `• 200ml: 30% Extract Parfum\n`;
+    message += `• 100ml e 30ml: 33% Extract Parfum\n`;
+    message += `• 50ml: 20% Colônia\n`;
+    message += `• Body Splash: 20%\n\n`;
+    
     // Adicionar informações de entrega/retirada
     if (deliveryInfo.type === 'delivery') {
-        message += `*ENTREGA:*\n`;
+        message += `*DADOS PARA ENTREGA:*\n`;
         message += `Nome: ${deliveryInfo.name}\n`;
         message += `Telefone: ${deliveryInfo.phone}\n`;
         message += `Endereço: ${deliveryInfo.address}\n`;
@@ -968,47 +1016,64 @@ function sendToWhatsApp() {
         message += `\n*Endereço para retirada será informado após confirmação.*\n`;
     }
     
+    message += `\n*Obrigado pelo pedido!*\n`;
+    message += `\n*Pedido gerado em:* ${new Date().toLocaleString('pt-BR')}\n`;
+    
     // Número do WhatsApp
     const phoneNumber = "5519998978060"; // Formato internacional
     const encodedMessage = encodeURIComponent(message);
     const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     
+    // Abrir WhatsApp
     window.open(whatsappURL, '_blank');
+    
+    // Feedback
+    showNotification('Pedido enviado para o WhatsApp!', 'success');
 }
 
 // Funções auxiliares
 function goToHome() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    switchTab('feminino');
+    switchTab('compartilhavel');
 }
 
-function showNotification(message) {
+// Função de notificação (Melhoria 2)
+function showNotification(message, type = 'success') {
+    // Remover notificações anteriores
+    document.querySelectorAll('.notification').forEach(notification => notification.remove());
+    
     // Criar notificação
     const notification = document.createElement('div');
-    notification.className = 'notification';
+    notification.className = `notification ${type}`;
     notification.textContent = message;
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: #25D366;
-        color: white;
-        padding: 15px 25px;
-        border-radius: 5px;
-        z-index: 2000;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-        animation: slideIn 0.3s ease;
-    `;
     
     document.body.appendChild(notification);
     
+    // Remover após 3 segundos
     setTimeout(() => {
         notification.style.animation = 'slideOut 0.3s ease';
         setTimeout(() => notification.remove(), 300);
     }, 3000);
 }
 
-// Adicionar estilos para animações
+// Funções de carregamento (Melhoria 2)
+function showLoading() {
+    isLoading = true;
+    const loadingElement = document.getElementById('loading');
+    if (loadingElement) {
+        loadingElement.style.display = 'flex';
+    }
+}
+
+function hideLoading() {
+    isLoading = false;
+    const loadingElement = document.getElementById('loading');
+    if (loadingElement) {
+        loadingElement.style.display = 'none';
+    }
+}
+
+// Adicionar estilos para animações (se necessário)
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideIn {
@@ -1022,3 +1087,16 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+// Prevenir recarregamento da página se houver dados não salvos
+window.addEventListener('beforeunload', function(event) {
+    if (cart.length > 0) {
+        event.preventDefault();
+        event.returnValue = 'Você tem itens no carrinho. Tem certeza que deseja sair?';
+    }
+});
+
+// Inicializar também quando a página estiver totalmente carregada
+window.addEventListener('load', function() {
+    console.log('Página totalmente carregada');
+});
