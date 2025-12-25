@@ -18,9 +18,18 @@
                 <span>Craftcare Store</span>
             </div>
             <div class="top-bar-actions">
+                <button class="delivery-info-top" id="delivery-info-top" aria-label="Opções de Entrega">
+                    <i class="fas fa-truck"></i>
+                </button>
                 <div class="search-box">
-                    <input type="text" id="global-search" placeholder="Buscar perfumes...">
-                    <i class="fas fa-search"></i>
+                    <form id="global-search-form">
+                        <input type="text" id="global-search" placeholder="Buscar por nome...">
+                        <button type="submit" class="search-btn" id="global-search-btn" aria-label="Pesquisar">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                    <div class="search-results-dropdown" id="search-results-dropdown"></div>
+                    <div class="search-info" id="search-info"></div>
                 </div>
                 <button class="cart-icon-btn" id="cart-toggle">
                     <i class="fas fa-shopping-cart"></i>
@@ -51,6 +60,14 @@
         <div class="cart-total">
             <p>Total: <span id="cart-total-price">R$ 0,00</span></p>
             <p><small>*Frete a combinar</small></p>
+        </div>
+        <div class="promotion-info" id="promotion-info">
+            <div class="promotion-badge">
+                <i class="fas fa-tag"></i>
+                <span>PROMOÇÃO ATIVA</span>
+            </div>
+            <p class="promotion-text">Compre 3 perfumes de 100ml do mesmo tipo e ganhe 10% de desconto! (Máximo 3 por pedido)</p>
+            <p id="discount-info" class="discount-info"></p>
         </div>
         <div class="cart-actions">
             <button id="cart-send-whatsapp" class="whatsapp-btn">
@@ -92,8 +109,11 @@
                     <input type="text" id="client-name" placeholder="Seu nome completo">
                 </div>
                 <div class="form-group">
-                    <label for="client-phone">Telefone *</label>
-                    <input type="tel" id="client-phone" placeholder="(00) 00000-0000">
+                    <label for="client-phone">Telefone para Contato *</label>
+                    <input type="tel" id="client-phone" placeholder="(19) 99897-8060" 
+                           pattern="[0-9]{11}" 
+                           title="Digite o telefone com DDD (11 dígitos)">
+                    <small class="phone-hint">Exemplo: 19998978060 (11 dígitos com DDD)</small>
                 </div>
                 <div class="form-group">
                     <label for="client-address">Endereço Completo *</label>
@@ -103,7 +123,7 @@
                     <label for="client-complement">Complemento</label>
                     <input type="text" id="client-complement" placeholder="Apartamento, bloco, referência...">
                 </div>
-                <p class="form-note">* Campos obrigatórios</p>
+                <p class="form-note">* Campos obrigatórios. Telefone deve ter exatamente 11 dígitos (com DDD).</p>
             </div>
             
             <div class="pickup-info" id="pickup-info" style="display: none;">
@@ -116,9 +136,13 @@
                     <input type="text" id="pickup-name" placeholder="Seu nome completo">
                 </div>
                 <div class="form-group">
-                    <label for="pickup-phone">Telefone *</label>
-                    <input type="tel" id="pickup-phone" placeholder="(00) 00000-0000">
+                    <label for="pickup-phone">Telefone para Contato *</label>
+                    <input type="tel" id="pickup-phone" placeholder="(19) 99897-8060"
+                           pattern="[0-9]{11}" 
+                           title="Digite o telefone com DDD (11 dígitos)">
+                    <small class="phone-hint">Exemplo: 19998978060 (11 dígitos com DDD)</small>
                 </div>
+                <p class="form-note">* Campos obrigatórios. Telefone deve ter exatamente 11 dígitos (com DDD).</p>
             </div>
         </div>
         <div class="modal-footer">
@@ -132,8 +156,29 @@
     <div class="container">
         <header>
             <h1><i class="fas fa-wine-bottle"></i> Selecione seus Perfumes</h1>
-            <p class="subtitle">Escolha os perfumes que deseja e envie o pedido diretamente para nosso WhatsApp</p>
+            <p class="subtitle">Perfumes inspirados nas melhores fragrâncias do mercado</p>
+            <div class="inspiration-notice">
+                <i class="fas fa-lightbulb"></i>
+                <p>Todos os produtos são inspirados nas melhores fragrâncias do mercado, com formulação própria de alta qualidade.</p>
+            </div>
+            <div class="promotion-banner">
+                <div class="promotion-content">
+                    <i class="fas fa-tag"></i>
+                    <div class="promotion-details">
+                        <h3>PROMOÇÃO ESPECIAL!</h3>
+                        <p>Compre 3 perfumes de 100ml do mesmo tipo e ganhe <strong>10% de desconto</strong>!</p>
+                        <small>Máximo 3 perfumes 100ml com desconto por pedido</small>
+                    </div>
+                </div>
+            </div>
         </header>
+
+        <!-- Botão de Entrega visível -->
+        <div class="delivery-action">
+            <button class="delivery-btn" id="delivery-action-btn">
+                <i class="fas fa-truck"></i> Configurar Entrega
+            </button>
+        </div>
 
         <!-- Resumo Rápido do Pedido -->
         <div class="quick-summary">
@@ -150,11 +195,14 @@
         </div>
 
         <div class="tabs">
-            <button class="tab-btn active" data-tab="feminino">
-                <i class="fas fa-venus"></i> Femininos (97)
+            <button class="tab-btn active" data-tab="compartilhavel">
+                <i class="fas fa-users"></i> Compartilháveis (43)
+            </button>
+            <button class="tab-btn" data-tab="feminino">
+                <i class="fas fa-venus"></i> Femininos (115)
             </button>
             <button class="tab-btn" data-tab="masculino">
-                <i class="fas fa-mars"></i> Masculinos (131)
+                <i class="fas fa-mars"></i> Masculinos (170)
             </button>
             <button class="tab-btn" data-tab="body">
                 <i class="fas fa-spray-can"></i> Body Splash (6)
@@ -171,21 +219,23 @@
                     <option value="price-desc">Maior Preço</option>
                 </select>
             </div>
-            <div class="filter-group">
-                <label for="price-filter">Faixa de Preço:</label>
-                <select id="price-filter">
-                    <option value="all">Todos os preços</option>
-                    <option value="0-100">Até R$ 100</option>
-                    <option value="100-150">R$ 100 - R$ 150</option>
-                    <option value="150-200">R$ 150 - R$ 200</option>
-                    <option value="200+">Acima de R$ 200</option>
-                </select>
+        </div>
+
+        <div class="tab-content active" id="compartilhavel-tab">
+            <div class="search-feedback" id="compartilhavel-feedback"></div>
+            <div class="filter">
+                <input type="text" id="search-compartilhavel" placeholder="Buscar entre perfumes compartilháveis...">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="perfume-grid" id="compartilhavel-grid">
+                <!-- Perfumes compartilháveis serão carregados aqui -->
             </div>
         </div>
 
-        <div class="tab-content active" id="feminino-tab">
+        <div class="tab-content" id="feminino-tab">
+            <div class="search-feedback" id="feminino-feedback"></div>
             <div class="filter">
-                <input type="text" id="search-feminino" placeholder="Buscar perfume feminino...">
+                <input type="text" id="search-feminino" placeholder="Buscar entre perfumes femininos...">
                 <i class="fas fa-search"></i>
             </div>
             <div class="perfume-grid" id="feminino-grid">
@@ -194,8 +244,9 @@
         </div>
 
         <div class="tab-content" id="masculino-tab">
+            <div class="search-feedback" id="masculino-feedback"></div>
             <div class="filter">
-                <input type="text" id="search-masculino" placeholder="Buscar perfume masculino...">
+                <input type="text" id="search-masculino" placeholder="Buscar entre perfumes masculinos...">
                 <i class="fas fa-search"></i>
             </div>
             <div class="perfume-grid" id="masculino-grid">
@@ -204,8 +255,9 @@
         </div>
 
         <div class="tab-content" id="body-tab">
+            <div class="search-feedback" id="body-feedback"></div>
             <div class="filter">
-                <input type="text" id="search-body" placeholder="Buscar body splash...">
+                <input type="text" id="search-body" placeholder="Buscar entre body splashes...">
                 <i class="fas fa-search"></i>
             </div>
             <div class="perfume-grid" id="body-grid">
@@ -222,6 +274,17 @@
                 <li>Clique no botão verde para enviar direto para o WhatsApp</li>
                 <li>O frete será combinado após o pedido</li>
             </ol>
+            
+            <div class="concentration-info">
+                <h4><i class="fas fa-flask"></i> Informações sobre Concentração:</h4>
+                <ul>
+                    <li><strong>200ml:</strong> 30% Extract Parfum</li>
+                    <li><strong>100ml e 30ml:</strong> 33% Extract Parfum (Alta concentração)</li>
+                    <li><strong>50ml:</strong> 20% Colônia (Concentração média)</li>
+                    <li><strong>Body Splash:</strong> 20% (Concentração refrescante)</li>
+                </ul>
+            </div>
+            
             <div class="contact-info">
                 <p><i class="fab fa-whatsapp"></i> WhatsApp: (19) 99897-8060</p>
             </div>
@@ -229,8 +292,10 @@
 
         <footer>
             <p>Sistema de Pedidos de Perfumes &copy; 2024</p>
+            <p class="footer-notice">Perfumes inspirados nas melhores fragrâncias do mercado</p>
             <p class="footer-links">
-                <a href="#" id="delivery-info"><i class="fas fa-truck"></i> Opções de Entrega</a>
+                <a href="#" id="delivery-info-footer"><i class="fas fa-truck"></i> Opções de Entrega</a>
+                <a href="#" id="go-home-footer"><i class="fas fa-home"></i> Início</a>
             </p>
         </footer>
     </div>
